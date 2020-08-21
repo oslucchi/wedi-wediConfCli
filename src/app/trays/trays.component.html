@@ -1,0 +1,6 @@
+<div *ngIf="showDrain" id="drain">
+  <app-drain [width]="trayWidth" [length]="trayLength"></app-drain>
+</div>
+<div *ngIf="!showDrain" name="punct">
+  <app-punct [width]="trayWidth" [length]="trayLength"></app-punct>
+</div>

@@ -1,0 +1,10 @@
+<div>
+  <label>{{ inputLabel }}</label>
+  <input
+    type="number"
+    [(ngModel)]="protectedInput"
+    (blur)="onBlur()"
+    [max]="maxVal"
+    [min]="minVal"
+  />
+</div>

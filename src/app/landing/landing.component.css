@@ -1,0 +1,104 @@
+table {
+    border-spacing: 0 10px; 
+}
+
+ .mat-table {
+    max-height: 700px;
+    width: 100%;
+}
+
+.mat-header-cell {
+    color: rgb(6, 62, 247);
+}
+
+.mat-row {
+    cursor: pointer;
+}
+
+.mat-row:nth-child(even){
+  background-color:rgba(126, 123, 123, 0.062);
+}
+
+.mat-row:nth-child(odd){
+  background-color:#FDFDFB;
+}
+   
+.mat-column-articleNumber {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-description {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+   
+.mat-column-trayType {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 5% !important;
+    width: 5% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-size {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 18% !important;
+    width: 18% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-price {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    
+    text-align: right;
+    justify-content: flex-end;
+  }
+  .mat-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+  }

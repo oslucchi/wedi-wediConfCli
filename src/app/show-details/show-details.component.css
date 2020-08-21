@@ -1,0 +1,402 @@
+pdf-viewer {
+    display: block;
+    height: 100vh;
+  }
+
+/* table{
+  width: 100%;
+*/
+
+.mat-cell-price{
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.mat-column-gridSelected {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-gridArticleNumber {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 80px !important;
+  width: 80px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-gridDescription {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 200px !important;
+  width: 200px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-gridSize {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-gridPrice {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.mat-column-drainSelected {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-drainArticleNumber {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 80px !important;
+  width: 80px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-drainDescription {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 200px !important;
+  width: 200px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-drainDrainDiameter {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-drainPrice {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.mat-column-otherSelected {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-otherArticleNumber {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 80px !important;
+  width: 80px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-otherDescription {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 300px !important;
+  width: 300px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-otherPrice {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.mat-column-profileSelected {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-profileArticleNumber {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 80px !important;
+  width: 80px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-profileDescription {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 240px !important;
+  width: 240px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-profilePrice {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.mat-column-profileLength {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.mat-column-orderArticleNumber {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-orderDescription {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 300px !important;
+  width: 300px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-orderSize {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 120px !important;
+  width: 120px !important;
+   overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.mat-column-orderPrice {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 80px !important;
+  width: 80px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: right;
+  justify-content: flex-end;
+}
