@@ -8,11 +8,11 @@
             <table>
               <tr>
                 <td>
-                  Tipo del piatto :
+                  Tipo del piatto:
                 </td>
                 <td>
                   <mat-radio-group [(ngModel)]="trayTypeRadioButton" labelPosition="after"
-                               (change)="onChange($event)" name="trayType" >
+                              (change)="onChange($event)" name="trayType" >
                     <mat-radio-button *ngFor="let op of trayTypeOptions" [value]="op.name">
                       {{ op.label }}
                     </mat-radio-button>
@@ -21,7 +21,7 @@
               </tr>
               <tr>
                 <td>
-                  Altezza massetto:
+                  Altezza utile massetto:
                 </td>
                 <td>
                   <mat-radio-group [(ngModel)]="screedHeightRadioButton" labelPosition="after"
@@ -36,36 +36,37 @@
                 <td rowspan="2">Dimensioni:</td>
                 <td>
                   <mat-form-field>
-                    <mat-label *ngIf="trayType=='L'">Lato canalina (cm)</mat-label>
-                    <mat-label *ngIf="trayType=='P'">Primo lato (cm)</mat-label>
-                    <input matInput 
-                        [formControl]="matWidth"
-                        (change)="onWidthChange()">
+                    <mat-label *ngIf="trayType=='L'">Lato canalina <b>(cm)</b></mat-label>
+                    <mat-label *ngIf="trayType=='P'">Primo lato <b>(cm)</b></mat-label>
+                    <input #matWidthField matInput 
+                        (change)="onWidthChange()"
+                        [formControl]="matWidth">
                   </mat-form-field> 
                 </td>
               </tr>
               <tr>
                 <td>
                   <mat-form-field>
-                    <mat-label *ngIf="trayType=='L'">Altro lato (cm)</mat-label>
-                    <mat-label *ngIf="trayType=='P'">Secondo lato (cm)</mat-label>
-                    <input matInput 
-                        [formControl]="matLength"
-                        (change)="onLengthChange()">
+                    <mat-label *ngIf="trayType=='L'">Altro lato <b>(cm)</b></mat-label>
+                    <mat-label *ngIf="trayType=='P'">Secondo lato <b>(cm)</b></mat-label>
+                    <input #matLengthField matInput 
+                        (change)="onLengthChange()"
+                        [formControl]="matLength">
                   </mat-form-field> 
                 </td>
               </tr>
               <tr *ngIf="!disableProfilesChoice">
-                <td>Rivestimento</td>
+                <td>Rivestimento:</td>
                 <td>
                   <mat-form-field>
-                    <mat-label>Spessore</mat-label>
-                    <input matInput [formControl]="tileHeight">
+                    <mat-label>Spessore <b>(mm)</b></mat-label>
+                    <input #tileHeightField matInput 
+                           (change)="onTileThickChange()"
+                           [formControl]="tileHeight">
                   </mat-form-field> 
                 </td>
-             </tr>
+              </tr>
             </table>
-          
             <table>
               <tr>
                 <td></td>
@@ -125,7 +126,7 @@
           </td>
         </tr>
       </table>
-    </td>
+  </td>
     <td width='65%' valign='top'>
       <table width='100%'>
         <tr>

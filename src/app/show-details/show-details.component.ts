@@ -36,7 +36,8 @@ export class ShowDetailsComponent implements OnInit {
   public showProfiles: boolean;
   public noGrids: boolean;
   public noDrains: boolean;
-  public noOther: boolean;  
+  public noOther: boolean;
+  public gridsMandatory: boolean;
 
   dataSourceGrids: MatTableDataSource<Grids>;
   dataSourceDrains: MatTableDataSource<Drains>;
@@ -56,11 +57,13 @@ export class ShowDetailsComponent implements OnInit {
   private FILE_TYPE_EXCEL = 1;
   private FILE_TYPE_CSV = 2;
   private FILE_TYPE_TXT = 3;
+  private FILE_TYPE_DOCS = 4;
 
   public fileTypes: any = [
     { id: this.FILE_TYPE_EXCEL, des: "Excel", selected: true, disabled: false},
     { id: this.FILE_TYPE_CSV, des: "CSV", selected: false, disabled: false},
-    { id: this.FILE_TYPE_TXT, des: "Testo", selected: false, disabled: false}
+    { id: this.FILE_TYPE_TXT, des: "Testo", selected: false, disabled: false},
+    { id: this.FILE_TYPE_DOCS, des: "Documentazione", selected: false, disabled: false}
   ];
   public fileType: number;
 
@@ -112,7 +115,7 @@ export class ShowDetailsComponent implements OnInit {
    public storageLocal: StorageService;
 
    constructor(private routeParams: ActivatedRoute, 
-              private storage: StorageService,
+              public storage: StorageService,
               private apiService: ApiService,
               private _location: Location,
               private cookieService: CookieService ) {
@@ -194,10 +197,15 @@ export class ShowDetailsComponent implements OnInit {
                         if (this.tray.drainType == 'I')
                         {
                           this.noDrains = false;
+                          this.gridsMandatory = false;
                         }
                         else
                         {
                           this.noDrains = true;
+                          if (this.tray.trayType != 'P')
+                          {
+                            this.gridsMandatory = true;
+                          }
                         }
                       }
                   )
@@ -489,7 +497,24 @@ export class ShowDetailsComponent implements OnInit {
           saveAs(blob, "ordine.txt");
         });
         break;
+
+      case this.FILE_TYPE_DOCS:
+        var traysArr = new Array(this.tray);
+        this.service.downloadFromURL("trays/order/doc", traysArr, 'blob')
+        .subscribe((res: HttpResponse<any>)=> {
+          console.log(res.headers.get("content-disposition"));
+          var blob = new Blob([res.body], {type: 'application/zip'});
+          saveAs(blob, "documentazione.zip");
+        });
+        break;
     }
+    this.fileType = 0;
+  }
+
+  downloadDocs()
+  {
+    this.fileType = this.FILE_TYPE_DOCS;
+    this.saveOrder();
   }
 
   backClicked() {

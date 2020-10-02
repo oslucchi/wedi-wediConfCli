@@ -1,9 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ApiService } from '../api.service';
 import { HttpResponse } from '@angular/common/http';
 import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageService } from '../storage.service';
 
@@ -15,6 +15,10 @@ import { StorageService } from '../storage.service';
 
 
 export class LandingComponent implements OnInit {
+  @ViewChild('matWidthField', { static: false }) matWidthField: ElementRef;
+  @ViewChild('matLengthField', {static: false}) matLengthField: ElementRef;
+  @ViewChild('tileHeightField', {static: false}) tileHeightField: ElementRef;
+
   inputWidth: number;
   inputLength: number;
   trayWidth: number;
@@ -102,9 +106,7 @@ export class LandingComponent implements OnInit {
     this.profilesWest = "wall";
     this.profilesEst = "floor";
   }
-
-        
-      
+  
   ngAfterViewInit() {
     if (this.storage.landingComponentData != null)
     {
@@ -187,6 +189,17 @@ export class LandingComponent implements OnInit {
 
   onWidthChange()
   {
+    if ((this.matWidth.value < 76) || (this.matWidth.value > 150))
+    {
+      alert("Il lato del piatto dove sta la canalina deve essere tra 76 e 150 cm\n" +
+            "Per misure superiori chiamare ufficio tecnico wedi Italia");
+      this.matWidth.setValue(90);
+      setTimeout(()=>{
+        this.matWidthField.nativeElement.select();
+        this.matWidthField.nativeElement.focus();
+      });
+      return;
+    }
     if (((this.inputWidth = this.matWidth.value) > 90) || (this.inputLength > 140))
     {
       this.scaleFactor = this.matWidth.value / 90;
@@ -204,6 +217,17 @@ export class LandingComponent implements OnInit {
 
   onLengthChange()
   {
+    if ((this.matLength.value < 75) || (this.matLength.value > 260))
+    {
+      alert("Il lato del piatto dove sta la canalina deve essere tra 75 e 260 cm\n" +
+            "Per misure superiori chiamare ufficio tecnico wedi Italia");
+      this.matLength.setValue(140);
+      setTimeout(()=>{
+        this.matLengthField.nativeElement.select();
+        this.matLengthField.nativeElement.focus();
+      });
+      return;
+    }
     if (((this.inputLength = this.matLength.value) > 140) || (this.inputWidth > 90))
     {
       this.scaleFactor = length / 140;
@@ -218,7 +242,21 @@ export class LandingComponent implements OnInit {
     }
     this.trayLength = this.matLength.value * 2 / this.scaleFactor;
   }
-  
+
+  onTileThickChange()
+  {
+    if ((this.tileHeight.value < 8) || (this.tileHeight.value > 12.5))
+    {
+      alert("Lo spessore indicato per il rivestimento deve essere tra 8 e 12.5mm compreso il collante (circa 2mm)");
+      this.tileHeight.setValue(10);
+      setTimeout(()=>{
+        this.tileHeightField.nativeElement.select();
+        this.tileHeightField.nativeElement.focus();
+      });
+      return;
+    }
+  }
+
   openArticle(tray: Trays) {
     this.tray = tray;
     this.storage.requestedSize = {
@@ -261,6 +299,7 @@ export class LandingComponent implements OnInit {
                         }
                 )
   }
+
   doNew() {
     this.searchCaption = "Ricerca";
     this.searchPerformed = false;

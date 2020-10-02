@@ -1,9 +1,373 @@
 <div>
-<!-- 
-    <pdf-viewer [src]="pdfPath" [render-text]="true" [show-all]="true" style="display: block;"></pdf-viewer>
- -->
 <button id="back" (click)="backClicked()">Torna alla lista</button>
-
+<table style="table-layout: fixed;">
+    <tr>
+        <th style='vertical-align: top; text-align: center; flex: 0 0 1200px' width='1200px'>
+            <table>
+                <tr>
+                    <td style='vertical-align: top; text-align: center; flex: 0 0 600px' width='600px'>
+                        <b>ELEMENTI AGGIUNTIVI DELL'ORDINE</b>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </th>
+        <th style='width: 20px;'></th>
+        <th style='vertical-align: top; text-align: center; flex: 0 0 500px' width='500px'>
+            <b>DETTAGLI ARTICOLO</b>
+        </th>
+    </tr>
+    <tr>
+        <td style='vertical-align: top;'>
+            <table >
+                <tr>
+                    <th style='vertical-align: top; text-align: left; flex: 0 0 600px;' width='600px'>
+                        <b>Necessari</b>
+                    </th>
+                    <th style='vertical-align: top; text-align: left; flex: 0 0 600px;' width='600px'>
+                        <b>Opzionali</b>
+                   </th>
+                </tr>
+                <tr style='height:300px; max-height: 300px;'>
+                    <td style='vertical-align: top;'>
+                        <div class="scrollable">
+                            <table>
+                                <tr>
+                                    <td class="linkLabel" (click)="toggleDrains()" style='vertical-align: top;'>
+                                        Scarico
+                                    </td>
+                                    <td>
+                                        <div *ngIf="showDrains">
+                                            <mat-table [dataSource]="dataSourceDrains" >
+                                                <ng-container matColumnDef="drainSelected">
+                                                    <mat-header-cell *matHeaderCellDef>☐</mat-header-cell>
+                                                    <mat-cell *matCellDef="let drain">
+                                                        <mat-checkbox [(ngModel)]="drain.selected" [checked]="drain.selected"
+                                                                    (change)="selectDrain(drain.articleNumber)"></mat-checkbox>  
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="drainArticleNumber">
+                                                    <mat-header-cell *matHeaderCellDef>Articolo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let drain">{{drain.articleNumber}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="drainDescription">
+                                                    <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>
+                                                    <mat-cell *matCellDef="let drain">{{drain.description}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="drainDrainDiameter">
+                                                    <mat-header-cell *matHeaderCellDef>Diametro</mat-header-cell>
+                                                    <mat-cell *matCellDef="let drain">{{drain.drainDiameter}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="drainPrice">
+                                                    <mat-header-cell *matHeaderCellDef>Prezzo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let drain">{{drain.price | number : '1.2-2'}}</mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="getDrainDisplayedColumns()"></mat-header-row>
+                                                <mat-row *matRowDef="let drain; columns: getDrainDisplayedColumns()"></mat-row>
+                                            </mat-table>
+                                        </div>
+                                        <div *ngIf="!showDrains" class="linkLabel" (click)="toggleDrains()" >
+                                            espandi sezione
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="gridsMandatory">
+                                    <td class="linkLabel" (click)="toggleGrids()" style='vertical-align: top;'>
+                                        Griglie
+                                    </td>
+                                    <td>
+                                        <div *ngIf="showGrids">
+                                            <mat-table [dataSource]="dataSourceGrids" >
+                                                <ng-container matColumnDef="gridSelected">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridSelect'>☐</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">
+                                                        <mat-checkbox [(ngModel)]="grid.selected" [checked]="grid.selected"
+                                                                    (change)="selectGrid(grid.articleNumber)"></mat-checkbox>  
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridArticleNumber">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridArticleNumber'>Articolo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.articleNumber }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridDescription">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridDescription'>Descrizione</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.description }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridTrayType">
+                                                    <mat-header-cell *matHeaderCellDef>trayType</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.trayType }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridSize">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridSize'>Dimensioni</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">
+                                                        {{ grid.width }} x  {{ grid.length }} x {{ grid.thickness }} mm
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridPrice">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridPrice'>Prezzo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.price | number : '1.2-2' }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridWidth">
+                                                    <mat-header-cell *matHeaderCellDef>Larg</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{grid.width}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridLength">
+                                                    <mat-header-cell *matHeaderCellDef>Lung</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{grid.length}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridThickness">
+                                                    <mat-header-cell *matHeaderCellDef>Spes</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{grid.thickness}}</mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="getGridDisplayedColumns()"></mat-header-row>
+                                                <mat-row *matRowDef="let grid; columns: getGridDisplayedColumns()"></mat-row>
+                                            </mat-table>
+                                        </div>
+                                        <div *ngIf="!showGrids" class="linkLabel"  (click)="toggleGrids()">
+                                            espandi sezione
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td style='vertical-align: top; height: 300px; max-height: 300px;overflow-y: scroll;'>
+                        <div class="scrollable">
+                            <table>
+                                <tr *ngIf="! gridsMandatory">
+                                    <td class="linkLabel" (click)="toggleGrids()" style='vertical-align: top;'>
+                                        Griglie
+                                    </td>
+                                    <td>
+                                        <div *ngIf="showGrids">
+                                            <mat-table [dataSource]="dataSourceGrids" >
+                                                <ng-container matColumnDef="gridSelected">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridSelect'>☐</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">
+                                                        <mat-checkbox [(ngModel)]="grid.selected" [checked]="grid.selected"
+                                                                    (change)="selectGrid(grid.articleNumber)"></mat-checkbox>  
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridArticleNumber">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridArticleNumber'>Articolo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.articleNumber }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridDescription">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridDescription'>Descrizione</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.description }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridTrayType">
+                                                    <mat-header-cell *matHeaderCellDef>trayType</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.trayType }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridSize">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridSize'>Dimensioni</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">
+                                                        {{ grid.width }} x  {{ grid.length }} x {{ grid.thickness }} mm
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridPrice">
+                                                    <mat-header-cell *matHeaderCellDef class='mat-column-gridPrice'>Prezzo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{ grid.price | number : '1.2-2' }}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridWidth">
+                                                    <mat-header-cell *matHeaderCellDef>Larg</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{grid.width}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridLength">
+                                                    <mat-header-cell *matHeaderCellDef>Lung</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{grid.length}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="gridThickness">
+                                                    <mat-header-cell *matHeaderCellDef>Spes</mat-header-cell>
+                                                    <mat-cell *matCellDef="let grid">{{grid.thickness}}</mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="getGridDisplayedColumns()"></mat-header-row>
+                                                <mat-row *matRowDef="let grid; columns: getGridDisplayedColumns()"></mat-row>
+                                            </mat-table>
+                                        </div>
+                                        <div *ngIf="!showGrids" class="linkLabel" (click)="toggleGrids()">
+                                            espandi sezione
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="tray.trayType=='L'">
+                                    <td class="linkLabel" (click)="toggleProfiles()" style='vertical-align: top;'>
+                                        Profili
+                                    </td>
+                                    <td>
+                                        <div *ngIf="showProfiles">
+                                            <mat-table [dataSource]="dataSourceProfiles" >
+                                                <ng-container matColumnDef="profileSelected">
+                                                    <mat-header-cell *matHeaderCellDef>☐</mat-header-cell>
+                                                    <mat-cell *matCellDef="let profile">
+                                                        <mat-checkbox [(ngModel)]="profile.selected" [checked]="profile.selected"
+                                                                    (change)="selectProfiles(profile.articleNumber)"></mat-checkbox>  
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="profileArticleNumber">
+                                                    <mat-header-cell *matHeaderCellDef>Articolo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let profile">{{profile.articleNumber}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="profileDescription">
+                                                    <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>
+                                                    <mat-cell *matCellDef="let profile">{{profile.description}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="profileLength">
+                                                    <mat-header-cell *matHeaderCellDef>Lung</mat-header-cell>
+                                                    <mat-cell *matCellDef="let profile">{{profile.length}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="profilePrice">
+                                                    <mat-header-cell *matHeaderCellDef>Prezzo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let profile">{{profile.price | number : '1.2-2'}}</mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="getProfilesDisplayedColumns()"></mat-header-row>
+                                                <mat-row *matRowDef="let profile; columns: getProfilesDisplayedColumns()"></mat-row>
+                                            </mat-table>
+                                        </div>
+                                        <div *ngIf="!showProfiles " class="linkLabel" (click)="toggleProfiles()" >
+                                            espandi sezione
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="linkLabel" (click)="toggleOtherParts()" style='vertical-align: top;'>
+                                        Altro
+                                    </td>
+                                    <td>
+                                        <div *ngIf="showOtherParts">
+                                            <mat-table [dataSource]="dataSourceOtherParts" >
+                                                <ng-container matColumnDef="otherSelected">
+                                                    <mat-header-cell *matHeaderCellDef>☐</mat-header-cell>
+                                                    <mat-cell *matCellDef="let part">
+                                                        <mat-checkbox [(ngModel)]="part.selected" [checked]="part.selected"
+                                                                    (change)="selectOtherParts(part.articleNumber)"></mat-checkbox>  
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="otherArticleNumber">
+                                                    <mat-header-cell *matHeaderCellDef>Articolo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let part">{{part.articleNumber}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="otherDescription">
+                                                    <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>
+                                                    <mat-cell *matCellDef="let part">{{part.description}}</mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="otherPrice">
+                                                    <mat-header-cell *matHeaderCellDef>Prezzo</mat-header-cell>
+                                                    <mat-cell *matCellDef="let part">{{part.price | number : '1.2-2'}}</mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="getOtherPartsDisplayedColumns()"></mat-header-row>
+                                                <mat-row *matRowDef="let part; columns: getOtherPartsDisplayedColumns()"></mat-row>
+                                            </mat-table>
+                                        </div>
+                                        <div *ngIf="!showOtherParts" class="linkLabel" (click)="toggleOtherParts()">
+                                            espandi sezione
+                                        </div>
+                                    </td>
+                                </tr>            
+                            </table>
+                        </div>
+                    </td>
+                <tr>
+                <tr>
+                    <td colspan='2' style='vertical-align: top;'>
+                        <hr style='height:4px;border-width:0;background-color:#888888;color: #888888;'>
+                        <table>
+                            <tr>
+                                <td style='vertical-align: top; text-align: center; flex: 0 0 250px' width='250px'>
+                                    <div *ngIf="!noDrains">
+                                        <br>
+                                        <mat-form-field appearance="legacy">
+                                            <mat-label>Tipo file</mat-label>
+                                            <mat-select [(ngModel)]="fileType">
+                                                <div *ngFor="let item of fileTypes;" >
+                                                    <mat-option [value]="item.id" [disabled]="item.disabled" >{{ item.des }}</mat-option>
+                                                </div>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        &nbsp;
+                                        <button mat-raised-button color="primary" 
+                                                id="saveOrder" (click)="saveOrder()">
+                                            Scarica proposta
+                                        </button>
+                                    </div>
+                                </td>
+                                <td style='vertical-align: top; text-align: center; flex: 0 0 950px' width='950px'>
+                                    <div style='text-align: center;'>
+                                        <span><b>COMPOSIZIONE PROPOSTA</b></span>
+                                        <mat-table [dataSource]="datasourceOrder" >
+                                            <ng-container matColumnDef="orderArticleNumber">
+                                                <mat-header-cell *matHeaderCellDef>Articolo</mat-header-cell>
+                                                <mat-cell *matCellDef="let item">{{item.articleNumber}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="orderDescription">
+                                                <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>
+                                                <mat-cell *matCellDef="let item">{{item.description}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="orderSize">
+                                                <mat-header-cell *matHeaderCellDef>Dimensioni</mat-header-cell>
+                                                <mat-cell *matCellDef="let item">{{item.size}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="orderPrice">
+                                                <mat-header-cell *matHeaderCellDef>Prezzo</mat-header-cell>
+                                                <mat-cell *matCellDef="let item">{{item.price | number : '1.2-2'}}</mat-cell>
+                                            </ng-container>
+                                            <mat-header-row *matHeaderRowDef="getOrderDisplayedColumns()"></mat-header-row>
+                                            <mat-row *matRowDef="let item; columns: getOrderDisplayedColumns()"></mat-row>
+                                        </mat-table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style='width: 20px;'></td>
+        <td style='vertical-align: top; border-left: thick solid #888888;'>
+            <table>
+                <tr>
+                    <th width='60px'></th>
+                    <th width='440px'></th>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <b>Piatto doccia articolo {{ tray.articleNumber }}</b>
+                        <br><br>
+                        Misure originali richieste {{ storage.requestedSize.requestedWidth }} x  {{ storage.requestedSize.requestedLen }}mm
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Taglio
+                    </td>
+                    <td>
+                        <img [src]="imgPath" alt="image not found" 
+                             title="Cliccare per scaricare la documentazione tecnica" 
+                             height="330" width="420" 
+                             (click)="downloadDocs()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Dettagli
+                    </td>
+                    <td>
+                        <ul>
+                            <li>{{ tray.description }}</li>
+                            <li>{{ size }}</li>
+                        </ul>
+                        <br>
+                        <span style='color: blue;' (click)="downloadDocs()">
+                            Cliccare sull'immagine per scaricare la documentazione tecnica
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!--
 <table style="table-layout: fixed;">
     <tr>
         <th style='vertical-align: top; text-align: center; flex: 0 0 600px' width='600px'>
@@ -41,10 +405,6 @@
                         <ul>
                             <li>{{ tray.description }}</li>
                             <li>{{ size }}</li>
-<!--
-                            <li>{{ totalThickness[0] }} mm</li>
-                            <li>{{ totalThickness[1] }} mm</li>
--->
                         </ul>
                     </td>
                 </tr>
@@ -265,4 +625,7 @@
         </td>
     </tr>
 </table>
+    
+-->
+
 </div>
