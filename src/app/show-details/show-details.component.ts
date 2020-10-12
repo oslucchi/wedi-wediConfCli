@@ -38,6 +38,8 @@ export class ShowDetailsComponent implements OnInit {
   public noDrains: boolean;
   public noOther: boolean;
   public gridsMandatory: boolean;
+  public drainMandatory: boolean
+  public missingMandatories: boolean;
 
   dataSourceGrids: MatTableDataSource<Grids>;
   dataSourceDrains: MatTableDataSource<Drains>;
@@ -112,17 +114,21 @@ export class ShowDetailsComponent implements OnInit {
     { def: 'profilePrice', hide: false }
    ];
 
-   public storageLocal: StorageService;
+   public storage: StorageService;
 
    constructor(private routeParams: ActivatedRoute, 
-              public storage: StorageService,
+              private storageParm: StorageService,
               private apiService: ApiService,
               private _location: Location,
               private cookieService: CookieService ) {
     
-    this.storageLocal = storage;
-    this.tray = storage.tray;
+    this.storage = storageParm;
+    this.service = apiService;
+  }
+  
+  ngOnInit() {
     var item = new Order();
+    this.tray = this.storage.tray;
     item.articleNumber = this.tray.articleNumber;
     item.description = this.tray.description;
     item.size = this.tray.width + "x" + this.tray.length + "x" + this.tray.thickness;
@@ -131,7 +137,7 @@ export class ShowDetailsComponent implements OnInit {
     this.order = new Array<Order>();
     this.order.push(item);
   
-    console.log("show details called. Article " + storage.tray.articleNumber);
+    console.log("show details called. Article " + this.storage.tray.articleNumber);
 
     this.size = "" + this.tray.width + " x " +
                 this.tray.length + " x " + this.tray.thickness;
@@ -139,13 +145,7 @@ export class ShowDetailsComponent implements OnInit {
       "Spessore totale con piletta MiniMax DN40: " + (this.tray.thickness + (this.tray.trayType == "L" ? 49 : 47)),
       "Spessore totale con piletta DN50: " + (this.tray.thickness + + (this.tray.trayType == "L" ? 80 : 90))
     ];
-    this.service = apiService;
-    this.noGrids = true;
-    this.noDrains = true;
-    this.noOther = true;
-  }
-  
-  ngOnInit() {
+
     this.showGrids = false;
     this.showDrains = false;
     this.showOtherParts = false;
@@ -153,6 +153,9 @@ export class ShowDetailsComponent implements OnInit {
     this.noGrids = true;
     this.noDrains = true;
     this.noOther = true;
+    this.gridsMandatory = false;
+    this.drainMandatory = false;
+    this.missingMandatories = true;
     this.routeParams.params.subscribe((params: Params) => {
       this.pdfPath = this.storage.baseHref + "assets/productDetails/" + this.tray.articleNumber + ".pdf";
       this.imgPath = this.storage.baseHref + "assets/productDetails/" + this.tray.articleNumber + ".png";
@@ -196,12 +199,12 @@ export class ShowDetailsComponent implements OnInit {
                         console.log("Drain type '" + this.tray.drainType + "'")
                         if (this.tray.drainType == 'I')
                         {
-                          this.noDrains = false;
                           this.gridsMandatory = false;
+                          this.drainMandatory = false;
                         }
                         else
                         {
-                          this.noDrains = true;
+                          this.drainMandatory = true;
                           if (this.tray.trayType != 'P')
                           {
                             this.gridsMandatory = true;
@@ -377,7 +380,14 @@ export class ShowDetailsComponent implements OnInit {
       }
     }
     this.datasourceOrder = new MatTableDataSource<Order>(this.order);
-  }
+    console.log("selectGrid: gridsMandatory=" + this.gridsMandatory +
+                " | noGrids=" + this.noGrids +
+                " | drainMandatory=" + this.drainMandatory +
+                " | noDrains=" + this.noDrains)
+    this.missingMandatories = (this.gridsMandatory && this.noGrids) || 
+                              (this.drainMandatory  && this.noDrains);
+    this.showGrids = this.showGrids && this.noGrids;
+}
 
   selectDrain(articleNumber: string)
   {
@@ -409,6 +419,13 @@ export class ShowDetailsComponent implements OnInit {
       }
     }
     this.datasourceOrder = new MatTableDataSource<Order>(this.order);
+    console.log("selectDrain: gridsMandatory=" + this.gridsMandatory +
+                " | noGrids=" + this.noGrids +
+                " | drainMandatory=" + this.drainMandatory +
+                " | noDrains=" + this.noDrains)
+    this.missingMandatories = (this.gridsMandatory && this.noGrids) || 
+                              (this.drainMandatory  && this.noDrains);
+    this.showDrains = this.showDrains && this.noDrains;
   }
 
   selectOtherParts(articleNumber: string)
@@ -507,6 +524,9 @@ export class ShowDetailsComponent implements OnInit {
           saveAs(blob, "documentazione.zip");
         });
         break;
+      
+      default:
+        alert("ATTENZIONE\nE' obbligatorio selezionare un tipo file");
     }
     this.fileType = 0;
   }
