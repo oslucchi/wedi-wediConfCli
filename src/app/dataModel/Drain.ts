@@ -1,4 +1,4 @@
-export class Drains {
+export class Drain {
 	 idDrain: number;
 	 articleNumber: string;
 	 description: string;

@@ -1,4 +1,4 @@
-export class Profiles {
+export class Profile {
     idProfiles: number;
     articleNumber: string;
     description: string;

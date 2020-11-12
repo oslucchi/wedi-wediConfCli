@@ -1,4 +1,5 @@
-export class Grids {
+export class Grid
+ {
 	 idGrid: number;
 	 articleNumber: string;
 	 trayType: string;

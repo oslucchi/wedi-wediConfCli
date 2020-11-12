@@ -1,0 +1,68 @@
+<h1 mat-dialog-title>Scarica proposta e documentazione</h1>
+<div mat-dialog-content>
+  <table>
+    <tr>
+      <td>
+        <mat-label>E-mail*</mat-label>
+      </td>
+      <td>
+        <mat-form-field [style.width.px]=327>
+          <input matInput [(ngModel)]="user.email">
+        </mat-form-field>      
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <hr>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <b>Qualche dettaglio in pi&ugrave; per registrarti</b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <mat-label>Nome</mat-label>
+      </td>
+      <td>
+        <mat-form-field [style.width.px]=327>
+          <input matInput [(ngModel)]="user.firstName">
+        </mat-form-field>      
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-label>Cognome</mat-label>
+      </td>
+      <td>
+        <mat-form-field [style.width.px]=327>
+          <input matInput [(ngModel)]="user.lastName">
+        </mat-form-field>      
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-label>Società</mat-label>
+      </td>
+      <td>
+        <mat-form-field [style.width.px]=327>
+          <input matInput [(ngModel)]="user.organization">
+        </mat-form-field>      
+      </td>
+    </tr>
+  </table>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="onCancelClick()">Cancella</button>
+  <button mat-raised-button color="primary" (click)="onSendClick()">Spedisci</button>
+</div>
+<span>
+  <br>
+  I campi contrassegnati con * sono obbligatori
+</span>

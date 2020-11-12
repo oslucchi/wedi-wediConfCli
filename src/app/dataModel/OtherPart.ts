@@ -1,4 +1,5 @@
-export class OtherParts {
+export class OtherPart
+ {
 	idOtherParts: number;
 	articleNumber: string;
 	description: string;

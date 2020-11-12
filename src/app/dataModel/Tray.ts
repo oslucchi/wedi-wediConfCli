@@ -1,4 +1,4 @@
-class  Trays {
+export class  Tray {
     idTrays: number;
     trayType: string;
     drainType: string;

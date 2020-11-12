@@ -26,6 +26,7 @@ export class ApiService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    console.log("In handle error " + error.status);
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
@@ -33,7 +34,15 @@ export class ApiService {
   public get(endPoint: string){ 
     let url = this.SERVER_BASE_URL + '/' + endPoint;
     console.log("trying to get the page: " + url);
-		return this.httpClient.get(url);  
+		return this.httpClient.get(url,  { 
+                                headers: new HttpHeaders()
+                                  .set('Content-Type', 'application/json')
+                                  .set('Language', 'IT-it'),
+                                observe: "response"
+                          })
+                          .pipe(
+                            catchError(this.handleError)
+                          );
 	}  
 
 	public post(endPoint: string, body: object){ 

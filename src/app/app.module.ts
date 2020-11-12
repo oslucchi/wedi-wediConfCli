@@ -22,6 +22,8 @@ import { ShowDetailsComponent } from './show-details/show-details.component';
 import { AboutComponent } from './about/about.component';
 import { CookieService} from 'ngx-cookie-service';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DownloadFormComponent } from './download-form/download-form.component';
+import { MatDialogModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     DrainComponent,
     PunctComponent,
     ShowDetailsComponent,
-    AboutComponent
+    AboutComponent,
+    DownloadFormComponent
   ],
 
   imports: [
@@ -48,10 +51,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSelectModule,
     MatFormFieldModule,
     MatButtonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatDialogModule
   ],
 
   providers: [CookieService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    DownloadFormComponent, 
+  ]
 })
 export class AppModule { }

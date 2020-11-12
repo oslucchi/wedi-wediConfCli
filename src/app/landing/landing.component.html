@@ -1,186 +1,269 @@
 <div>
-<table width='100%'>
-  <tr>
-    <td width='30%' valign='top'>
-      <table>
-        <tr>
-          <td>
-            <table>
-              <tr>
-                <td>
-                  Tipo del piatto:
-                </td>
-                <td>
-                  <mat-radio-group [(ngModel)]="trayTypeRadioButton" labelPosition="after"
-                              (change)="onChange($event)" name="trayType" >
-                    <mat-radio-button *ngFor="let op of trayTypeOptions" [value]="op.name">
-                      {{ op.label }}
-                    </mat-radio-button>
-                  </mat-radio-group>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Altezza utile massetto:
-                </td>
-                <td>
-                  <mat-radio-group [(ngModel)]="screedHeightRadioButton" labelPosition="after"
-                                  (change)="onChange($event)" name="screedHeigth" >
-                    <mat-radio-button *ngFor="let op of screedHeightOptions" [value]="op.name">
-                      {{ op.label }}
-                    </mat-radio-button>
-                  </mat-radio-group>
-                </td>
-              </tr>
-              <tr>
-                <td rowspan="2">Dimensioni:</td>
-                <td>
-                  <mat-form-field>
-                    <mat-label *ngIf="trayType=='L'">Lato canalina <b>(cm)</b></mat-label>
-                    <mat-label *ngIf="trayType=='P'">Primo lato <b>(cm)</b></mat-label>
-                    <input #matWidthField matInput 
+  <table width="100%">
+    <tr>
+      <td width="30%" valign="top">
+        <table>
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <td>Tipo scarico:</td>
+                  <td>
+                    <mat-radio-group
+                      [(ngModel)]="trayTypeRadioButton"
+                      labelPosition="after"
+                      (change)="onChange($event)"
+                      name="trayType"
+                    >
+                      <mat-radio-button
+                        *ngFor="let op of trayTypeOptions"
+                        [value]="op.name"
+                      >
+                        {{ op.label }}
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Altezza utile massetto:</td>
+                  <td>
+                    <mat-radio-group
+                      [(ngModel)]="screedHeightRadioButton"
+                      labelPosition="after"
+                      (change)="onChange($event)"
+                      name="screedHeigth"
+                    >
+                      <mat-radio-button
+                        *ngFor="let op of screedHeightOptions"
+                        [value]="op.name"
+                      >
+                        {{ op.label }}
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="2">Dimensioni:</td>
+                  <td>
+                    <mat-form-field>
+                      <mat-label *ngIf="trayType == 'L'"
+                        >Lato canalina <b>(cm)</b></mat-label
+                      >
+                      <mat-label *ngIf="trayType == 'P'"
+                        >Lato corto <b>(cm)</b></mat-label
+                      >
+                      <input
+                        #matWidthField
+                        matInput
                         (change)="onWidthChange()"
-                        [formControl]="matWidth">
-                  </mat-form-field> 
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <mat-form-field>
-                    <mat-label *ngIf="trayType=='L'">Altro lato <b>(cm)</b></mat-label>
-                    <mat-label *ngIf="trayType=='P'">Secondo lato <b>(cm)</b></mat-label>
-                    <input #matLengthField matInput 
+                        [formControl]="matWidth"
+                      />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <mat-form-field>
+                      <mat-label *ngIf="trayType == 'L'"
+                        >Altro lato<b>(cm)</b>
+                      </mat-label>
+                      <mat-label *ngIf="trayType == 'P'"
+                        >Lato lungo <b>(cm)</b></mat-label
+                      >
+                      <input
+                        #matLengthField
+                        matInput
                         (change)="onLengthChange()"
-                        [formControl]="matLength">
-                  </mat-form-field> 
-                </td>
-              </tr>
-              <tr *ngIf="!disableProfilesChoice">
-                <td>Rivestimento:</td>
-                <td>
-                  <mat-form-field>
-                    <mat-label>Spessore <b>(mm)</b></mat-label>
-                    <input #tileHeightField matInput 
-                           (change)="onTileThickChange()"
-                           [formControl]="tileHeight">
-                  </mat-form-field> 
-                </td>
-              </tr>
-            </table>
-            <table>
-              <tr>
-                <td></td>
-                <td style="text-align: center;">
-                  <mat-radio-group name="profilesNorth" labelPosition="after" 
-                                   [(ngModel)]="profilesNorth" [disabled]="disableProfilesChoice ">
-                    <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                    <br>
-                    <mat-radio-button value="floor">Pavimento</mat-radio-button>              
-                  </mat-radio-group>
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                  <mat-radio-group name="profilesWest" labelPosition="after" 
-                                   [(ngModel)]="profilesWest" [disabled]="disableProfilesChoice ">
-                    <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                    <br>
-                    <mat-radio-button value="floor" >Pavimento</mat-radio-button>              
-                  </mat-radio-group>
-                </td>
-                <td>
-                  <app-trays
-                    [showDrain]="showDrain"
-                    [trayWidth]="trayWidth"
-                    [trayLength]="trayLength"
-                  ></app-trays>
-                </td>
-                <td>
-                  <mat-radio-group name="profilesEst" labelPosition="after" 
-                                   [(ngModel)]="profilesEst" [disabled]="disableProfilesChoice ">
-                    <mat-radio-button value="wall" >Muro</mat-radio-button>
-                    <br>
-                    <mat-radio-button value="floor" checked>Pavimento</mat-radio-button>              
-                  </mat-radio-group>
-                </td>
-              </tr>
-              <tr *ngIf="false">
-                <td></td>
-                <td>
-                  <mat-radio-group name="profilesSouth" labelPosition="after" 
-                                  [disabled]="disableProfilesChoice ">
-                    <mat-radio-button value="wall" >Muro</mat-radio-button>
-                    <br>
-                    <mat-radio-button value="floor" checked>Pavimento</mat-radio-button>              
-                  </mat-radio-group>
-                </td>
-                <td></td>
-              </tr>
-            </table>
-          </td>
-          <td>
-            <div id="products">
-              <div ng-view class="view-frame"></div>
-            </div>
-          </td>
-        </tr>
-      </table>
-  </td>
-    <td width='65%' valign='top'>
-      <table width='100%'>
-        <tr>
-          <td>
-            <button id="search" (click)="doSearch()">{{ searchCaption }}</button>
-            <button *ngIf="searchPerformed" id="nuovo" (click)="doNew()">Nuova ricerca</button>
-           <br>
-            <mat-table [dataSource]="dataSource" >
-              <ng-container matColumnDef="articleNumber">
-                <mat-header-cell *matHeaderCellDef>Articolo</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{tray.articleNumber}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="description">
-                <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{tray.description}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="trayType">
-                <mat-header-cell *matHeaderCellDef>P/L</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{tray.trayType}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="drainType">
-                <mat-header-cell *matHeaderCellDef>I/E</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{tray.drainType}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="size">
-                <mat-header-cell *matHeaderCellDef>Dimensioni</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{ tray.width }} x  {{ tray.length }} x x{{tray.thickness}} mm</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="width">
-                <mat-header-cell *matHeaderCellDef>Larg</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{tray.width}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="length">
-                <mat-header-cell *matHeaderCellDef>Lung</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{tray.length}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="thickness">
-                <mat-header-cell *matHeaderCellDef>Spes</mat-header-cell>
-                <mat-cell *matCellDef="let tray">{{tray.thickness}}</mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="price">
-                <mat-header-cell *matHeaderCellDef>Prezzo</mat-header-cell>
-                <mat-cell *matCellDef="let tray">
-                  {{tray.price | number : '1.2-2'}}
-                </mat-cell>
-              </ng-container>
+                        [formControl]="matLength"
+                      />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr *ngIf="!disableProfilesChoice">
+                  <td>Rivestimento:</td>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Spessore <b>mm</b> (5.5-10) </mat-label>
+                      <input
+                        #tileHeightField
+                        matInput
+                        placeholder="Solo ceramica no colla"
+                        (change)="onTileThickChange()"
+                        [formControl]="tileHeight"
+                      />
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <td></td>
+                  <td style="text-align: center">
+                    <mat-radio-group
+                      name="profilesNorth"
+                      labelPosition="after"
+                      [(ngModel)]="profilesNorth"
+                      [disabled]="disableProfilesChoice"
+                    >
+                      <mat-radio-button value="wall" checked
+                        >Muro</mat-radio-button
+                      >
+                      <br />
+                      <mat-radio-button value="floor"
+                        >Pavimento</mat-radio-button
+                      >
+                    </mat-radio-group>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <mat-radio-group
+                      name="profilesWest"
+                      labelPosition="after"
+                      [(ngModel)]="profilesWest"
+                      [disabled]="disableProfilesChoice"
+                    >
+                      <mat-radio-button value="wall" checked
+                        >Muro</mat-radio-button
+                      >
+                      <br />
+                      <mat-radio-button value="floor"
+                        >Pavimento</mat-radio-button
+                      >
+                    </mat-radio-group>
+                  </td>
+                  <td>
+                    <app-trays
+                      [showDrain]="showDrain"
+                      [trayWidth]="trayWidth"
+                      [trayLength]="trayLength"
+                    ></app-trays>
+                  </td>
+                  <td>
+                    <mat-radio-group
+                      name="profilesEst"
+                      labelPosition="after"
+                      [(ngModel)]="profilesEst"
+                      [disabled]="disableProfilesChoice"
+                    >
+                      <mat-radio-button value="wall">Muro</mat-radio-button>
+                      <br />
+                      <mat-radio-button value="floor" checked
+                        >Pavimento</mat-radio-button
+                      >
+                    </mat-radio-group>
+                  </td>
+                </tr>
+                <tr *ngIf="false">
+                  <td></td>
+                  <td>
+                    <mat-radio-group
+                      name="profilesSouth"
+                      labelPosition="after"
+                      [disabled]="disableProfilesChoice"
+                    >
+                      <mat-radio-button value="wall">Muro</mat-radio-button>
+                      <br />
+                      <mat-radio-button value="floor" checked
+                        >Pavimento</mat-radio-button
+                      >
+                    </mat-radio-group>
+                  </td>
+                  <td></td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <div id="products">
+                <div ng-view class="view-frame"></div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td width="65%" valign="top">
+        <table width="100%">
+          <tr>
+            <td>
+              <button id="search" (click)="doSearch()">
+                {{ searchCaption }}
+              </button>
+              <button *ngIf="searchPerformed" id="nuovo" (click)="doNew()">
+                Nuova ricerca
+              </button>
+              <br />
+              <mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="articleNumber">
+                  <mat-header-cell *matHeaderCellDef>Articolo</mat-header-cell>
+                  <mat-cell *matCellDef="let tray">{{
+                    tray.articleNumber
+                  }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                  <mat-header-cell *matHeaderCellDef
+                    >Descrizione</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let tray">{{
+                    tray.description
+                  }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="trayType">
+                  <mat-header-cell *matHeaderCellDef>P/L</mat-header-cell>
+                  <mat-cell *matCellDef="let tray">{{
+                    tray.trayType
+                  }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="drainType">
+                  <mat-header-cell *matHeaderCellDef>I/E</mat-header-cell>
+                  <mat-cell *matCellDef="let tray">{{
+                    tray.drainType
+                  }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="size">
+                  <mat-header-cell *matHeaderCellDef
+                    >Dimensioni</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let tray"
+                    >{{ tray.width }} x {{ tray.length }} x x{{
+                      tray.thickness
+                    }}
+                    mm</mat-cell
+                  >
+                </ng-container>
+                <ng-container matColumnDef="width">
+                  <mat-header-cell *matHeaderCellDef>Larg</mat-header-cell>
+                  <mat-cell *matCellDef="let tray">{{ tray.width }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="length">
+                  <mat-header-cell *matHeaderCellDef>Lung</mat-header-cell>
+                  <mat-cell *matCellDef="let tray">{{ tray.length }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="thickness">
+                  <mat-header-cell *matHeaderCellDef>Spes</mat-header-cell>
+                  <mat-cell *matCellDef="let tray">{{
+                    tray.thickness
+                  }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="price">
+                  <mat-header-cell *matHeaderCellDef>Prezzo</mat-header-cell>
+                  <mat-cell *matCellDef="let tray">
+                    {{ tray.price | number: "1.2-2" }}
+                  </mat-cell>
+                </ng-container>
 
-              <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="openArticle(row)"></mat-row>
-            </mat-table>
-          </td>
-        </tr>
-     </table>
-    </td>
-  </tr>  
-</table>
+                <mat-header-row
+                  *matHeaderRowDef="getDisplayedColumns()"
+                ></mat-header-row>
+                <mat-row
+                  *matRowDef="let row; columns: getDisplayedColumns()"
+                  (click)="openArticle(row)"
+                ></mat-row>
+              </mat-table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </div>

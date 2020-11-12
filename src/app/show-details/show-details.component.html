@@ -203,7 +203,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr *ngIf="tray.trayType=='L'">
+                <tr *ngIf="storage.tray.trayType=='L'">
                     <td class="linkLabel" (click)="toggleProfiles()" style='vertical-align: top;'>
                         Profili
                     </td>
@@ -320,7 +320,16 @@
                                     </div>
                                 </mat-select>
                             </mat-form-field>
-                            &nbsp;
+                            <br>
+                            <mat-form-field>
+                                <mat-label>Riferimento ordine</mat-label>
+                                <input 
+                                    matInput
+                                    placeholder="riferimento riportato"
+                                    [(ngModel)]="orderRef"
+                                />
+                            </mat-form-field>      
+                            <br>
                             <button mat-raised-button color="primary" 
                                     id="saveOrder" (click)="saveOrder()">
                                 Scarica proposta
@@ -339,9 +348,15 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: center;">
-                        <b>Piatto doccia articolo {{ tray.articleNumber }}</b>
+                        <b>Piatto doccia articolo {{ storage.tray.articleNumber }}</b>
                         <br><br>
-                        Misure originali richieste {{ storage.requestedSize.requestedWidth }} x  {{ storage.requestedSize.requestedLen }}mm
+                        Misure originali richieste {{ storage.searchCriteria.wMin }} x {{ storage.searchCriteria.lMin }}mm
+                        <div *ngIf="storage.tray.drainType == 'I'">
+                            <br>
+                            <span style='color: blue;'>
+                                I piatti doccia con scarico integrato includono già la griglia
+                            </span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -361,7 +376,7 @@
                     </td>
                     <td>
                         <ul>
-                            <li>{{ tray.description }}</li>
+                            <li>{{ storage.tray.description }}</li>
                             <li>{{ size }}</li>
                         </ul>
                         <br>
