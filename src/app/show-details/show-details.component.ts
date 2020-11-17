@@ -538,6 +538,10 @@ export class ShowDetailsComponent implements OnInit {
   
   downloadFromSite()
   {
+    if ((this.orderRef == null) || (this.orderRef == undefined))
+    {
+      this.orderRef = "proposta";
+    }
     switch (this.fileType) 
     {
       case this.FILE_TYPE_EXCEL:

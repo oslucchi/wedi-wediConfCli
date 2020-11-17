@@ -7,10 +7,10 @@ import { MatTooltipModule } from '@angular/material';
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { StorageService } from "../storage.service";
-import { CookieService } from 'ngx-cookie-service';
 import { User } from '../dataModel/User';
 import { Tray } from '../dataModel/Tray';
 import { SearchCriteria } from '../dataModel/SearchCriteria';
+import { LocalStorageService } from '../localstorage.service';
 
 @Component({
   selector: "app-landing",
@@ -70,12 +70,12 @@ export class LandingComponent implements OnInit {
   constructor(private service: ApiService,
               private router: Router,
               private storage: StorageService,
-              private cookieServ: CookieService) 
+              private localStorageService: LocalStorageService) 
   {
     if (this.storage.user.token == "")
     {
-      this.storage.user.token = this.cookieServ.get('token');
-      console.log("ngOnInit: found token '" + this.userToken + "'");
+      this.storage.user.token = this.localStorageService.get("token");
+      console.log("ngOnInit: token stored in memory is '" + this.storage.user.token + "'");
       this.service.getIpAddress()
                   .subscribe(
                     (res: any) => {
@@ -136,12 +136,11 @@ export class LandingComponent implements OnInit {
   startUserSession()
   {
     // Check if user connected before
-    if ((this.userToken == null) || (this.userToken == ""))
+    if ((this.storage.user.token == null) || (this.storage.user.token == undefined))
     {
-      this.userToken = "";
+      this.storage.user.token = "";
     }
-    this.storage.user.token = this.userToken;
-    console.log("startUserSession: token stored in memory '" + this.userToken + "'");
+    console.log("startUserSession: token stored in memory '" + this.storage.user.token + "'");
 
     this.service
       .post("user/search",
@@ -154,8 +153,8 @@ export class LandingComponent implements OnInit {
         console.log("startUserSession: got user '" + res.body.user.idUser + "' from DB");
         this.storage.user = res.body.user;
         this.storage.session = res.body.session;
-        this.cookieServ.set("token", this.storage.user.token, 365, "/",  "", false, "Lax")
-        console.log("startUserSession: token set is '" + this.cookieServ.get('token') + "'");
+        this.localStorageService.set("token", this.storage.user.token);
+        console.log("startUserSession: token set is '" + this.localStorageService.get("token") + "'");
       });
     }
 
