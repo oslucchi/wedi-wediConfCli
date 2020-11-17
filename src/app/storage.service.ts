@@ -3,6 +3,7 @@ import { environment } from "../environments/environment";
 import { SearchCriteria } from './dataModel/SearchCriteria';
 import { Tray } from './dataModel/Tray';
 import { User } from './dataModel/User';
+import { Session } from './dataModel/Session';
 import { LandingComponent } from "./landing/landing.component";
 
 @Injectable({
@@ -19,7 +20,7 @@ export class StorageService {
 
   // user and session data
   public user: User;
-  public session: string;
+  public session: Session;
 
   public tray: Tray;
   public useExtension: boolean;
@@ -44,7 +45,9 @@ export class StorageService {
     this.host = environment.host;
     this.baseURL = environment.baseURL;
     this.baseHref = environment.baseHref;
-    this.session = "";
+    this.session = new Session();
     this.user = new User();
+    this.landingComponentData = null;
+
   }
 }

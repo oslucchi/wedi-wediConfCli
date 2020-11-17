@@ -19,73 +19,52 @@ import { SearchCriteria } from '../dataModel/SearchCriteria';
 })
 
 export class LandingComponent implements OnInit {
-  @ViewChild("matWidthField", { static: false }) matWidthField: ElementRef;
-  @ViewChild("matLengthField", { static: false }) matLengthField: ElementRef;
+  @ViewChild("trayWidthField", { static: false }) trayWidthField: ElementRef;
+  @ViewChild("trayLengthField", { static: false }) trayLengthField: ElementRef;
   @ViewChild("tileHeightField", { static: false }) tileHeightField: ElementRef;
 
-  inputWidth: number;
-  inputLength: number;
-  trayWidth: number;
-  trayLength: number;
-  scaleFactor: number;
+  public showDrain = false;
 
-  showDrain = false;
-  profiles = new Map([
-    ["North", "wall"],
-    ["West", "wall"],
-    ["Est", "floor"],
-    ["South", "floor"],
-  ]);
+  public disableProfilesChoice: boolean;
+  private displayedColumns: any[] = [
+            { def: "articleNumber", hide: false },
+            { def: "description", hide: false },
+            { def: "trayType", hide: true },
+            { def: "drainType", hide: true },
+            { def: "size", hide: false },
+            { def: "width", hide: true },
+            { def: "length", hide: true },
+            { def: "thickness", hide: true },
+            { def: "price", hide: false },
+          ];
 
-  disableProfilesChoice: boolean;
-  trayType: string;
-  thickness: number;
-  displayedColumns: any[] = [
-    { def: "articleNumber", hide: false },
-    { def: "description", hide: false },
-    { def: "trayType", hide: true },
-    { def: "drainType", hide: true },
-    { def: "size", hide: false },
-    { def: "width", hide: true },
-    { def: "length", hide: true },
-    { def: "thickness", hide: true },
-    { def: "price", hide: false },
+  private sizeLabels = [
+    {type: "P", width: "Lato corto", length: "Lato lungo" },
+    {type: "L", width: "Lato canalina", length: "Altro lato" }
   ];
-  matWidth = new FormControl();
-  matLength = new FormControl();
-  tileHeight = new FormControl();
+  public sizeLabel: any;
 
   public tray: Tray;
-
   private trays: Tray[];
-  radioTipoPiattoStatus: string;
-  dataSource: MatTableDataSource<Tray>;
+  public dataSource: MatTableDataSource<Tray>;
 
-  public profilesNorth: string;
-  public profilesEst: string;
-  public profilesWest: string;
-  public profilesSouth: string;
   public trayTypeRadioButton: String;
   public trayTypeOptions = [
     { name: "drain", label: "Canalina" },
     { name: "point", label: "Puntuale" },
   ];
   public screedHeightRadioButton: String;
-  public searchCaption: String;
-  public searchPerformed: boolean;
-
   public screedHeightOptions = [
     { name: "lessThan10", label: "Meno di 10cm" },
     { name: "greaterEqual10", label: "10 cm o più" },
   ];
+  // private tileHeight = new FormControl();
 
-  public searchCriteria = {
-    trayType: " ",
-    thickness: 0,
-    WMin: 0,
-    LMin: 0
-  };
+  public searchCaption: String;
+  public searchPerformed: boolean;
+  public searchCriteria: SearchCriteria;
 
+  public ipAddress: string;
   public userToken: string;
 
   constructor(private service: ApiService,
@@ -93,30 +72,77 @@ export class LandingComponent implements OnInit {
               private storage: StorageService,
               private cookieServ: CookieService) 
   {
-    this.inputWidth = 90;
-    this.inputLength = 140;
-    this.matWidth.setValue(90);
-    this.matLength.setValue(140);
-    this.scaleFactor = 1.0;
-
-    this.trayType = "P";
-    this.thickness = 200;
-    this.disableProfilesChoice = true;
-
-    this.searchPerformed = false;
-    this.trayTypeRadioButton = "point";
-    this.screedHeightRadioButton = "greaterEqual10";
-    this.searchCaption = "Ricerca";
+    if (this.storage.user.token == "")
+    {
+      this.storage.user.token = this.cookieServ.get('token');
+      console.log("ngOnInit: found token '" + this.userToken + "'");
+      this.service.getIpAddress()
+                  .subscribe(
+                    (res: any) => {
+                      console.log("ngOnInit: got IP address '" + res.ip + ". Calling user search");
+                      this.storage.session.ipAddress = res.ip;
+                      this.startUserSession()
+                    },
+                    (error: any) => {
+                      this.storage.session.ipAddress = "0.0.0.0";
+                      this.startUserSession()
+                  }); 
+    }
   }
 
   ngOnInit() {
+    if (this.storage.landingComponentData == null)
+    {
+      this.setDefaultValues();
+    }
+    else
+    {
+      this.searchCaption = "Ripeti";
+      this.searchPerformed = true;
+      this.searchCriteria = this.storage.landingComponentData.searchCriteria;
+
+      // this.tileHeight.setValue(this.storage.landingComponentData.tileHeight.value);
+  
+      this.disableProfilesChoice = this.storage.landingComponentData.disableProfilesChoice;
+      this.trayTypeRadioButton = this.storage.landingComponentData.trayTypeRadioButton;
+      this.screedHeightRadioButton = this.storage.landingComponentData.screedHeightRadioButton;
+      this.showDrain = this.storage.landingComponentData.showDrain;
+
+      this.sizeLabel = this.storage.landingComponentData.sizeLabel;
+
+      this.trays = this.storage.landingComponentData.trays;
+      this.dataSource = new MatTableDataSource<Tray>(this.trays);
+    }
+  }
+
+  setDefaultValues()
+  {
+    this.searchCaption = "Ricerca";
+    this.searchPerformed = false;
+    this.searchCriteria = new SearchCriteria();
+
+    // this.tileHeight.setValue(0);
+ 
+    this.disableProfilesChoice = true;
+    this.showDrain = false;
+    this.trayTypeRadioButton = "point";
+    this.screedHeightRadioButton = "greaterEqual10";
+    
+    this.sizeLabel = this.sizeLabels.find(item => item.type == "P");
+
+    this.dataSource = new MatTableDataSource<Tray>([]);
+  }
+
+  startUserSession()
+  {
     // Check if user connected before
-    this.userToken = this.cookieServ.get('token');
     if ((this.userToken == null) || (this.userToken == ""))
     {
-      this.userToken = "dummy";
+      this.userToken = "";
     }
     this.storage.user.token = this.userToken;
+    console.log("startUserSession: token stored in memory '" + this.userToken + "'");
+
     this.service
       .post("user/search",
             {
@@ -125,44 +151,16 @@ export class LandingComponent implements OnInit {
             }
       )
       .subscribe((res: HttpResponse<any>) => {
+        console.log("startUserSession: got user '" + res.body.user.idUser + "' from DB");
         this.storage.user = res.body.user;
         this.storage.session = res.body.session;
-        this.cookieServ.set("token", this.storage.user.token);
+        this.cookieServ.set("token", this.storage.user.token, 365, "/",  "", false, "Lax")
+        console.log("startUserSession: token set is '" + this.cookieServ.get('token') + "'");
       });
-    this.trayWidth = this.inputWidth * 2;
-    this.trayLength = this.inputLength * 2;
-    this.profilesNorth = "wall";
-    this.profilesWest = "wall";
-    this.profilesEst = "floor";
-    this.storage.searchCriteria = new SearchCriteria();
-  }
-
-  ngAfterViewInit() {
-    if (this.storage.landingComponentData != null)
-    {
-      this.searchCaption = "Ripeti";
-      this.searchPerformed = true;
-      this.inputWidth = this.storage.landingComponentData.inputWidth;
-      this.inputLength = this.storage.landingComponentData.inputLength;
-      this.matLength.setValue(this.inputLength);
-      this.matWidth.setValue(this.inputWidth);
-      this.trayWidth = this.storage.landingComponentData.trayWidth;
-      this.trayLength = this.storage.landingComponentData.trayLength;
-      this.trayType = this.storage.landingComponentData.trayType;
-      this.scaleFactor = this.storage.landingComponentData.scaleFactor;
-      this.tileHeight = this.storage.landingComponentData.tileHeight;
-      this.disableProfilesChoice = this.storage.landingComponentData.disableProfilesChoice;
-      this.trayTypeRadioButton = this.storage.landingComponentData.trayTypeRadioButton;
-      this.screedHeightRadioButton = this.storage.landingComponentData.screedHeightRadioButton;
-      this.thickness = this.storage.landingComponentData.thickness;
-
-      this.profilesNorth = this.storage.landingComponentData.profilesNorth;
-      this.profilesWest = this.storage.landingComponentData.profilesWest;
-      this.profilesEst = this.storage.landingComponentData.profilesEst;
-
-      this.trays = this.storage.landingComponentData.trays;
-      this.dataSource = new MatTableDataSource<Tray>(this.trays);
     }
+
+  ngAfterViewInit() 
+  {
   }
 
   getDisplayedColumns(): string[] {
@@ -180,97 +178,94 @@ export class LandingComponent implements OnInit {
         if (mrChange.value == "point") 
         {
           this.showDrain = false;
-          this.trayType = "P";
+          this.searchCriteria.trayType = "P";
           this.disableProfilesChoice = true;
+          this.sizeLabel = this.sizeLabels.find(item => item.type == "P");
         } 
         else 
         {
           this.showDrain = true;
-          this.trayType = "L";
+          this.searchCriteria.trayType = "L";
           this.disableProfilesChoice = false;
+          this.sizeLabel = this.sizeLabels.find(item => item.type == "L");
         }
         break;
 
       case "screedHeigth":
         if (mrChange.value == "lessThan10")
         {      
-          this.thickness = 99;
+          this.searchCriteria.screedThickness = 99;
         }
         else
         {
-          this.thickness = 200;
+          this.searchCriteria.screedThickness = 200;
         }
         break;
     }
-    console.log(this.trayType + " " + this.thickness);
+    console.log(this.searchCriteria.trayType + " " + this.searchCriteria.screedThickness);
   }
 
-  evaluateScaleFactor()
+  onWidthChange() 
   {
-    var scaleFactorW: number;
-    var scaleFactorL: number;
-    if ((this.inputWidth = this.matWidth.value) > 90)
+    var wMinLowBound: number = 600;
+    var wMinUpBound: number;
+
+    if (this.searchCriteria.trayType == "P")
     {
-      scaleFactorW = this.matWidth.value / 90;
+       wMinUpBound = 2700;
     }
     else
     {
-      scaleFactorW = 1.0;
+      wMinUpBound = 1800;
     }
-
-    if ((this.inputLength = this.matLength.value) > 140)
-    {
-      scaleFactorL = this.matLength.value / 140;
-    }
-    else 
-    {
-      scaleFactorL = 1.0;
-    }
-
-    this.scaleFactor = (scaleFactorL > scaleFactorW ? scaleFactorL : scaleFactorW);
-    this.trayWidth = (this.matWidth.value * 2) / this.scaleFactor;
-    this.trayLength = (this.matLength.value * 2) / this.scaleFactor;
-  }
-
-  onWidthChange() {
-    if (this.matWidth.value < 60 || this.matWidth.value > 180) {
+    if (this.searchCriteria.wMin < wMinLowBound || this.searchCriteria.wMin > wMinUpBound) {
       alert(
-        "Il lato del piatto dove sta la canalina deve essere tra 60 e 180 cm\n" +
-          "Per misure superiori chiamare ufficio tecnico wedi Italia"
+        this.sizeLabel.width + " deve essere tra " + wMinLowBound + " e " + wMinUpBound + " cm\n" +
+          "Per misure fuori limite chiamare ufficio tecnico wedi Italia"
       );
-      this.matWidth.setValue(90);
+      this.searchCriteria.wMin  = 900;
       setTimeout(() => {
-        this.matWidthField.nativeElement.select();
-        this.matWidthField.nativeElement.focus();
+        this.trayWidthField.nativeElement.select();
+        this.trayWidthField.nativeElement.focus();
       });
       return;
     }
-    this.evaluateScaleFactor();
   }
 
-  onLengthChange() {
-    if (this.matLength.value < 60 || this.matLength.value > 200) {
+  onLengthChange() 
+  {
+    var lMinLowBound: number = 600;
+    var lMinUpBound: number;
+    if (this.searchCriteria.trayType == "P")
+    {
+      lMinUpBound = 2700;
+    }
+    else
+    {
+      lMinUpBound = 1800;
+    }
+
+    if (this.searchCriteria.lMin < lMinLowBound || this.searchCriteria.lMin > lMinUpBound) {
       alert(
-        "Il lato del piatto dove sta la canalina deve essere tra 70 e 200 cm\n" +
-          "Per misure superiori chiamare ufficio tecnico wedi Italia"
+        this.sizeLabel.length + " deve essere tra " + lMinLowBound + " e " + lMinUpBound + " cm\n" +
+          "Per misure fuori limite chiamare ufficio tecnico wedi Italia"
       );
-      this.matLength.setValue(140);
+      this.searchCriteria.lMin  = 1400;
       setTimeout(() => {
-        this.matLengthField.nativeElement.select();
-        this.matLengthField.nativeElement.focus();
+        this.trayLengthField.nativeElement.select();
+        this.trayLengthField.nativeElement.focus();
       });
       return;
     }
-    this.evaluateScaleFactor();
   }
 
   onTileThickChange() {
     var tileHeight: number;
-    tileHeight = Number(this.tileHeight.value);
+    tileHeight = Number(this.searchCriteria.profiles.tileHeight);
     if (tileHeight < 5.5 || tileHeight > 10)
     {
       alert("Lo spessore del rivestimento deve essere tra 5.5 e 10mm. Non considerare la colla");
-      this.tileHeight.setValue(10);
+      this.searchCriteria.profiles.tileHeight = 10;
       setTimeout(() => {
         this.tileHeightField.nativeElement.select();
         this.tileHeightField.nativeElement.focus();
@@ -288,65 +283,41 @@ export class LandingComponent implements OnInit {
   }
 
   doSearch() {
-    var temp: FormControl;
+    var temp: number;
 
     this.searchCaption = "Ripeti";
 
-    if ((this.trayType == "P") && 
-        (Number(this.matLength.value) < Number(this.matWidth.value)))
+    if ((this.searchCriteria.trayType == "P") && 
+        (Number(this.searchCriteria.lMin) < Number(this.searchCriteria.wMin)))
     {
-      temp = this.matLength;
-      this.matLength = this.matWidth;
-      this.matWidth = temp;
+      temp = this.searchCriteria.lMin;
+      this.searchCriteria.lMin = this.searchCriteria.wMin;
+      this.searchCriteria.wMin = temp;
       this.onLengthChange();
       this.onWidthChange();
     }
-    this.storage.searchCriteria.trayType = this.trayType;
-    this.storage.searchCriteria.screedThickness = this.thickness;
-    this.storage.searchCriteria.lMin = this.inputLength * 10;
-    this.storage.searchCriteria.wMin = this.inputWidth * 10;
-    this.storage.searchCriteria.profiles.tileHeight = this.tileHeight.value;
-    this.storage.searchCriteria.profiles.est = this.profilesEst;
-    this.storage.searchCriteria.profiles.west = this.profilesWest;
-    this.storage.searchCriteria.profiles.north = this.profilesNorth;
 
     this.service
       .post("trays/search", {
-        searchCriteria: this.storage.searchCriteria,
+        searchCriteria: this.searchCriteria,
         user: this.storage.user,
         session: this.storage.session
       })
       .subscribe((res: HttpResponse<any>) => {
-        if (res.body.trays.length == 0)
-        {
-          alert("Nessun piatto soddisfa i requisiti richiesti. Cambiarli se possibile o chiamare\n" +
-                "il supporto tecnico di wedi per eventuali altre soluzioni");
-        }
         this.storage.user = res.body.user;
-        this.cookieServ.set("token", this.storage.user.token);
         this.trays = res.body.trays;
         this.dataSource = new MatTableDataSource<Tray>(this.trays);
-        this.storage.landingComponentData = this;
         this.searchPerformed = true;
         this.storage.useExtension = res.body.useExtension;
         this.storage.useDoubleExtension = res.body.useDoubleExtension;
         console.log(this.trays);
+        this.storage.landingComponentData = this;
       });
   }
 
-  doNew() {
-    this.searchCaption = "Ricerca";
-    this.searchPerformed = false;
-    this.inputWidth = 90;
-    this.inputLength = 140;
-    this.matWidth.setValue(90);
-    this.matLength.setValue(140);
-    this.trayType = "P";
-    this.thickness = 200;
-    this.disableProfilesChoice = true;
+  doNew() 
+  {
     this.storage.landingComponentData = null;
-    this.dataSource = null;
-    this.trayTypeRadioButton = "point";
-    this.screedHeightRadioButton = "greaterEqual10";
+    this.setDefaultValues();
   }
 }

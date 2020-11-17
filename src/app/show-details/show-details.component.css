@@ -352,8 +352,8 @@ pdf-viewer {
   text-align: left;
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 250px !important;
-  width: 250px !important;
+  flex: 0 0 320px !important;
+  width: 320px !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 

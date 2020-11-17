@@ -9,7 +9,12 @@ export class SearchCriteria {
 		north: string;
 		tileHeight: number;
 	};
+
 	public constructor() {
-		this.profiles = {est: "floor", west: "wall", north:"wall", tileHeight: 0};
+		this.trayType = "P";
+		this.screedThickness = 200;
+		this.wMin = 900;
+		this.lMin = 1400;
+		this.profiles = {est: "floor", west: "wall", north:"wall", tileHeight: 10};
 	}
 }

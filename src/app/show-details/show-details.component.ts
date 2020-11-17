@@ -129,8 +129,8 @@ export class ShowDetailsComponent implements OnInit {
 
     item.articleNumber = this.storage.tray.articleNumber;
     item.description = this.storage.tray.description;
-    item.size = this.storage.tray.width + "x" + 
-                this.storage.tray.length + "x" + 
+    item.size = this.storage.tray.length + "x" + 
+                this.storage.tray.width + "x" + 
                 this.storage.tray.thickness;
     item.price = this.storage.tray.price;
 
@@ -139,10 +139,11 @@ export class ShowDetailsComponent implements OnInit {
 
     console.log("show details called. Article " + this.storage.tray.articleNumber);
 
-    this.size = "" + this.storage.tray.width +
-                " x " + this.storage.tray.length +
-                " x " + this.storage.tray.thickness;
-    this.totalThickness = [
+    this.size = this.storage.tray.length + " x " + 
+                this.storage.tray.width + " x " + 
+                this.storage.tray.thickness;
+
+                this.totalThickness = [
       "Spessore totale con piletta MiniMax DN40: " +
         (this.storage.tray.thickness + (this.storage.tray.trayType == "L" ? 49 : 47)),
       "Spessore totale con piletta DN50: " +
@@ -377,8 +378,7 @@ export class ShowDetailsComponent implements OnInit {
         var item = new Order();
         item.articleNumber = this.grid.articleNumber;
         item.description = this.grid.description;
-        item.size =
-          this.grid.width + "x" + this.grid.length + "x" + this.grid.thickness;
+        item.size = this.grid.length + "x" + this.grid.width + "x" + this.grid.thickness;
         item.price = this.grid.price;
         this.order.push(item);
       }
