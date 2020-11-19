@@ -310,6 +310,7 @@ export class LandingComponent implements OnInit {
         this.storage.useExtension = res.body.useExtension;
         this.storage.useDoubleExtension = res.body.useDoubleExtension;
         console.log(this.trays);
+        this.storage.searchCriteria = this.searchCriteria;
         this.storage.landingComponentData = this;
       });
   }
