@@ -23,6 +23,11 @@
                   </td>
                 </tr>
                 <tr>
+                  <td colspan=2>
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
                   <td>Altezza utile massetto:</td>
                   <td>
                     <mat-radio-group [(ngModel)]="screedHeightRadioButton" labelPosition="after"
@@ -34,22 +39,27 @@
                   </td>
                 </tr>
                 <tr>
-                  <td rowspan="2">Dimensioni:</td>
-                  <td>
-                    <mat-form-field>
-                      <mat-label *ngIf="trayType == 'L'">Lato canalina <b>(cm)</b></mat-label>
-                      <mat-label *ngIf="trayType == 'P'">Lato corto <b>(cm)</b></mat-label>
-                      <input #matWidthField matInput (change)="onWidthChange()" [formControl]="matWidth" />
-                    </mat-form-field>
+                  <td colspan=2>
+                    &nbsp;
                   </td>
                 </tr>
                 <tr>
+                  <td>Dimensioni:</td>
                   <td>
                     <mat-form-field>
-                      <mat-label *ngIf="trayType == 'L'">Altro lato<b>(cm)</b>
-                      </mat-label>
-                      <mat-label *ngIf="trayType == 'P'">Lato lungo <b>(cm)</b></mat-label>
-                      <input #matLengthField matInput (change)="onLengthChange()" [formControl]="matLength" />
+                      <mat-label>{{ sizeLabel.width }} <b>(mm)</b> </mat-label>
+                      <!--
+                        [formControl]="matWidth"
+                        -->
+                      <input #trayWidthField matInput (change)="onWidthChange()" [(ngModel)]="searchCriteria.wMin" />
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field>
+                      <mat-label>{{ sizeLabel.length }} <b>(mm)</b> </mat-label>
+                      <!--
+                        [formControl]="matLength"
+                        -->
+                      <input #trayLengthField matInput (change)="onLengthChange()" [(ngModel)]="searchCriteria.lMin" />
                     </mat-form-field>
                   </td>
                 </tr>
@@ -57,9 +67,12 @@
                   <td>Rivestimento:</td>
                   <td>
                     <mat-form-field>
-                      <mat-label>Spessore <b>mm</b> (5.5-10) </mat-label>
+                      <mat-label>Spessore (tra 5.5 e 10 <b>mm</b>) </mat-label>
+                      <!--
+                        [formControl]="tileHeight"
+                        -->
                       <input #tileHeightField matInput placeholder="Solo ceramica no colla"
-                        (change)="onTileThickChange()" [formControl]="tileHeight" />
+                        (change)="onTileThickChange()" [(ngModel)]="searchCriteria.profiles.tileHeight" />
                     </mat-form-field>
                   </td>
                 </tr>
@@ -68,10 +81,10 @@
                 <tr>
                   <td></td>
                   <td style="text-align: center">
-                    <mat-radio-group name="profilesNorth" labelPosition="after" [(ngModel)]="profilesNorth"
-                      [disabled]="disableProfilesChoice">
+                    <mat-radio-group name="profilesNorth" labelPosition="after"
+                      [(ngModel)]="searchCriteria.profiles.north" [disabled]="disableProfilesChoice">
                       <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                      <br />
+                      <br>
                       <mat-radio-button value="floor">Pavimento</mat-radio-button>
                     </mat-radio-group>
                   </td>
@@ -79,35 +92,25 @@
                 </tr>
                 <tr>
                   <td>
-                    <mat-radio-group name="profilesWest" labelPosition="after" [(ngModel)]="profilesWest"
-                      [disabled]="disableProfilesChoice">
+                    <mat-radio-group name="profilesWest" labelPosition="after"
+                      [(ngModel)]="searchCriteria.profiles.west" [disabled]="disableProfilesChoice">
                       <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                      <br />
+                      <br>
                       <mat-radio-button value="floor">Pavimento</mat-radio-button>
                     </mat-radio-group>
                   </td>
                   <td>
-                    <app-trays [showDrain]="showDrain" [trayWidth]="trayWidth" [trayLength]="trayLength"></app-trays>
+                    <app-trays [showDrain]="showDrain" [trayWidth]="searchCriteria.wMin"
+                      [trayLength]="searchCriteria.lMin"></app-trays>
                   </td>
                   <td>
-                    <mat-radio-group name="profilesEst" labelPosition="after" [(ngModel)]="profilesEst"
+                    <mat-radio-group name="profilesEst" labelPosition="after" [(ngModel)]="searchCriteria.profiles.est"
                       [disabled]="disableProfilesChoice">
                       <mat-radio-button value="wall">Muro</mat-radio-button>
-                      <br />
+                      <br>
                       <mat-radio-button value="floor" checked>Pavimento</mat-radio-button>
                     </mat-radio-group>
                   </td>
-                </tr>
-                <tr *ngIf="false">
-                  <td></td>
-                  <td>
-                    <mat-radio-group name="profilesSouth" labelPosition="after" [disabled]="disableProfilesChoice">
-                      <mat-radio-button value="wall">Muro</mat-radio-button>
-                      <br />
-                      <mat-radio-button value="floor" checked>Pavimento</mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                  <td></td>
                 </tr>
               </table>
             </td>
@@ -129,38 +132,42 @@
               <button *ngIf="searchPerformed" id="nuovo" (click)="doNew()">
                 Nuova ricerca
               </button>
-              <br />
+            </td>
+            <td>
+              <div *ngIf="dataSource.data.length > 0" style="color: blue;">
+                Cliccare sul risultato prescelto per vederne i dettagli
+              </div>
+              <div *ngIf="dataSource.data.length == 0 && searchPerformed" style="color: red;">
+                Nessun piatto soddisfa i requisiti richiesti. Cambiarli se possibile o contaatare
+                <br>
+                il supporto tecnico di wedi allo 039 245 9420 per eventuali altre soluzioni
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
               <mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="articleNumber">
                   <mat-header-cell *matHeaderCellDef>Articolo</mat-header-cell>
-                  <mat-cell *matCellDef="let tray">{{
-                    tray.articleNumber
-                  }}</mat-cell>
+                  <mat-cell *matCellDef="let tray">{{ tray.articleNumber }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="description">
                   <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>
-                  <mat-cell *matCellDef="let tray">{{
-                    tray.description
-                  }}</mat-cell>
+                  <mat-cell *matCellDef="let tray">{{ tray.description }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="trayType">
                   <mat-header-cell *matHeaderCellDef>P/L</mat-header-cell>
-                  <mat-cell *matCellDef="let tray">{{
-                    tray.trayType
-                  }}</mat-cell>
+                  <mat-cell *matCellDef="let tray">{{ tray.trayType }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="drainType">
                   <mat-header-cell *matHeaderCellDef>I/E</mat-header-cell>
-                  <mat-cell *matCellDef="let tray">{{
-                    tray.drainType
-                  }}</mat-cell>
+                  <mat-cell *matCellDef="let tray">{{ tray.drainType }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="size">
                   <mat-header-cell *matHeaderCellDef>Dimensioni</mat-header-cell>
-                  <mat-cell *matCellDef="let tray">{{ tray.width }} x {{ tray.length }} x x{{
-                      tray.thickness
-                    }}
-                    mm</mat-cell>
+                  <mat-cell *matCellDef="let tray">
+                    {{ tray.length }} x {{ tray.width }} x {{ tray.thickness }}mm
+                  </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="width">
                   <mat-header-cell *matHeaderCellDef>Larg</mat-header-cell>
@@ -172,9 +179,7 @@
                 </ng-container>
                 <ng-container matColumnDef="thickness">
                   <mat-header-cell *matHeaderCellDef>Spes</mat-header-cell>
-                  <mat-cell *matCellDef="let tray">{{
-                    tray.thickness
-                  }}</mat-cell>
+                  <mat-cell *matCellDef="let tray">{{ tray.thickness }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="price">
                   <mat-header-cell *matHeaderCellDef>Prezzo</mat-header-cell>

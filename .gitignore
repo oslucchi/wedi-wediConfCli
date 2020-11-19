@@ -1,3 +1,176 @@
 node_modules
 e2e
 archive
+dist/wediConf/3rdpartylicenses.txt
+dist/wediConf/favicon.ico
+dist/wediConf/index.html
+dist/wediConf/main-es5.cc4a8d280e0c214c31c7.js
+dist/wediConf/main-es2015.cc4a8d280e0c214c31c7.js
+dist/wediConf/polyfills-es5.eeac35778857cdfd5291.js
+dist/wediConf/polyfills-es2015.833fec98dca74639f6a6.js
+dist/wediConf/runtime-es5.d6c52737d4587c65265f.js
+dist/wediConf/runtime-es2015.d6c52737d4587c65265f.js
+dist/wediConf/styles.bed02f26465b43953526.css
+dist/wediConf/assets/img/073715799A - linea 1000x1400.png
+dist/wediConf/assets/img/073735131 - primo 1000x1000.png
+dist/wediConf/assets/img/073735150 - primo 1400x900.png
+dist/wediConf/assets/img/073735151 - primo 1600x900.png
+dist/wediConf/assets/img/073735152 - primo 1600x1000.png
+dist/wediConf/assets/img/073735170 - primo 900x900.png
+dist/wediConf/assets/img/073735171 - primo 1200x1200.png
+dist/wediConf/assets/img/073735174 - primo 1200x900.png
+dist/wediConf/assets/img/073735175 - primo 1500x1500.png
+dist/wediConf/assets/img/073735176 - primo 900x750.png
+dist/wediConf/assets/img/073735180 - primo 1800x900.png
+dist/wediConf/assets/img/073735196 - primo 1400x900.png
+dist/wediConf/assets/img/073735198 - primo 1400x1000.png
+dist/wediConf/assets/img/073735531 - primo 1000x1000.png
+dist/wediConf/assets/img/073735580 - primo 1800x900.png
+dist/wediConf/assets/img/073735620 - plano 1400x900.png
+dist/wediConf/assets/img/073735621 - plano 1600x1000.png
+dist/wediConf/assets/img/073735625 - plano 900x900.png
+dist/wediConf/assets/img/073735626 - plano 1000x1000.png
+dist/wediConf/assets/img/073735627 - plano 1200x1200.png
+dist/wediConf/assets/img/073735630 - plano 1200x900.png
+dist/wediConf/assets/img/073735631 - plano 1200x900.png
+dist/wediConf/assets/img/073736120 - primo 1500x900.png
+dist/wediConf/assets/img/073736121 - primo 1500x1000.png
+dist/wediConf/assets/img/073736170 - primo 900x900.png
+dist/wediConf/assets/img/073736171 - primo 1200x1200.png
+dist/wediConf/assets/img/073736174 - primo 1200x900.png
+dist/wediConf/assets/img/073736175 - primo 1500x1500.png
+dist/wediConf/assets/img/073736176 - primo 2000x1000.png
+dist/wediConf/assets/img/073736600 - linea 1200x800.png
+dist/wediConf/assets/img/073736601 - linea 1200x900.png
+dist/wediConf/assets/img/073736602 - linea 1200x1000.png
+dist/wediConf/assets/img/073736603 - linea 900x900.png
+dist/wediConf/assets/img/073736607 - linea 1200x900.png
+dist/wediConf/assets/img/073736608 - riolito 900x900.png
+dist/wediConf/assets/img/075100001 - riolito 1200x900.png
+dist/wediConf/assets/img/075100003 - riolito 900x900.png
+dist/wediConf/assets/img/075100004 - riolito 1200x900.png
+dist/wediConf/assets/img/075100008 - riolito 1200x1000.png
+dist/wediConf/assets/img/075100031 - riolito 900x900.png
+dist/wediConf/assets/img/075900000 - integro 1200x900.png
+dist/wediConf/assets/img/075900001 - integro 1400x900.png
+dist/wediConf/assets/img/075900002 - integro 1600x1000.png
+dist/wediConf/assets/img/075900003 - integro 1800x900.png
+dist/wediConf/assets/img/075900004 - integro 900x900.png
+dist/wediConf/assets/img/075900005 - integro 1200x900.png
+dist/wediConf/assets/img/075900006 - Integro 1200x900.png
+dist/wediConf/assets/img/075900007 - integro 1200x1200.png
+dist/wediConf/assets/img/075900008 - integro 1000x1000.png
+dist/wediConf/assets/img/logoWedi.png
+dist/wediConf/assets/img/rename.sh
+dist/wediConf/assets/productDetails/073715799.pdf
+dist/wediConf/assets/productDetails/073715799A.png
+dist/wediConf/assets/productDetails/073716199-A.png
+dist/wediConf/assets/productDetails/073716199-B.png
+dist/wediConf/assets/productDetails/073716199.pdf
+dist/wediConf/assets/productDetails/073735131.pdf
+dist/wediConf/assets/productDetails/073735131.png
+dist/wediConf/assets/productDetails/073735150.pdf
+dist/wediConf/assets/productDetails/073735150.png
+dist/wediConf/assets/productDetails/073735151.pdf
+dist/wediConf/assets/productDetails/073735151.png
+dist/wediConf/assets/productDetails/073735152.pdf
+dist/wediConf/assets/productDetails/073735152.png
+dist/wediConf/assets/productDetails/073735170.pdf
+dist/wediConf/assets/productDetails/073735170.png
+dist/wediConf/assets/productDetails/073735171.pdf
+dist/wediConf/assets/productDetails/073735171.png
+dist/wediConf/assets/productDetails/073735174.pdf
+dist/wediConf/assets/productDetails/073735174.png
+dist/wediConf/assets/productDetails/073735175.pdf
+dist/wediConf/assets/productDetails/073735175.png
+dist/wediConf/assets/productDetails/073735176.pdf
+dist/wediConf/assets/productDetails/073735176.png
+dist/wediConf/assets/productDetails/073735180.pdf
+dist/wediConf/assets/productDetails/073735180.png
+dist/wediConf/assets/productDetails/073735196.pdf
+dist/wediConf/assets/productDetails/073735196.png
+dist/wediConf/assets/productDetails/073735198.pdf
+dist/wediConf/assets/productDetails/073735198.png
+dist/wediConf/assets/productDetails/073735531.pdf
+dist/wediConf/assets/productDetails/073735531.png
+dist/wediConf/assets/productDetails/073735580.pdf
+dist/wediConf/assets/productDetails/073735580.png
+dist/wediConf/assets/productDetails/073735600.pdf
+dist/wediConf/assets/productDetails/073735601.pdf
+dist/wediConf/assets/productDetails/073735602.pdf
+dist/wediConf/assets/productDetails/073735603.pdf
+dist/wediConf/assets/productDetails/073735604.pdf
+dist/wediConf/assets/productDetails/073735605.pdf
+dist/wediConf/assets/productDetails/073735606.pdf
+dist/wediConf/assets/productDetails/073735620.png
+dist/wediConf/assets/productDetails/073735621.png
+dist/wediConf/assets/productDetails/073735625.pdf
+dist/wediConf/assets/productDetails/073735625.png
+dist/wediConf/assets/productDetails/073735626.png
+dist/wediConf/assets/productDetails/073735627.png
+dist/wediConf/assets/productDetails/073735630.png
+dist/wediConf/assets/productDetails/073735631.png
+dist/wediConf/assets/productDetails/073736120.pdf
+dist/wediConf/assets/productDetails/073736120.png
+dist/wediConf/assets/productDetails/073736121.pdf
+dist/wediConf/assets/productDetails/073736121.png
+dist/wediConf/assets/productDetails/073736170.pdf
+dist/wediConf/assets/productDetails/073736170.png
+dist/wediConf/assets/productDetails/073736171.pdf
+dist/wediConf/assets/productDetails/073736171.png
+dist/wediConf/assets/productDetails/073736174.pdf
+dist/wediConf/assets/productDetails/073736174.png
+dist/wediConf/assets/productDetails/073736175.pdf
+dist/wediConf/assets/productDetails/073736175.png
+dist/wediConf/assets/productDetails/073736176png
+dist/wediConf/assets/productDetails/073736600.pdf
+dist/wediConf/assets/productDetails/073736600.png
+dist/wediConf/assets/productDetails/073736601.pdf
+dist/wediConf/assets/productDetails/073736601.png
+dist/wediConf/assets/productDetails/073736602.pdf
+dist/wediConf/assets/productDetails/073736602.png
+dist/wediConf/assets/productDetails/073736603.pdf
+dist/wediConf/assets/productDetails/073736603.png
+dist/wediConf/assets/productDetails/073736607.pdf
+dist/wediConf/assets/productDetails/073736607.png
+dist/wediConf/assets/productDetails/073736608.pdf
+dist/wediConf/assets/productDetails/073736608.png
+dist/wediConf/assets/productDetails/075100001.pdf
+dist/wediConf/assets/productDetails/075100001.png
+dist/wediConf/assets/productDetails/075100003.pdf
+dist/wediConf/assets/productDetails/075100003.png
+dist/wediConf/assets/productDetails/075100004.pdf
+dist/wediConf/assets/productDetails/075100004.png
+dist/wediConf/assets/productDetails/075100005.pdf
+dist/wediConf/assets/productDetails/075100005.png
+dist/wediConf/assets/productDetails/075100008.pdf
+dist/wediConf/assets/productDetails/075100008.png
+dist/wediConf/assets/productDetails/075100010.pdf
+dist/wediConf/assets/productDetails/075100010.png
+dist/wediConf/assets/productDetails/075100031.pdf
+dist/wediConf/assets/productDetails/075100031.png
+dist/wediConf/assets/productDetails/075100032.pdf
+dist/wediConf/assets/productDetails/075100032.png
+dist/wediConf/assets/productDetails/075100033.pdf
+dist/wediConf/assets/productDetails/075100033.png
+dist/wediConf/assets/productDetails/075100034.pdf
+dist/wediConf/assets/productDetails/075100034.png
+dist/wediConf/assets/productDetails/075100036.pdf
+dist/wediConf/assets/productDetails/075100036.png
+dist/wediConf/assets/productDetails/075900000.pdf
+dist/wediConf/assets/productDetails/075900000.png
+dist/wediConf/assets/productDetails/075900001.pdf
+dist/wediConf/assets/productDetails/075900001.png
+dist/wediConf/assets/productDetails/075900002.pdf
+dist/wediConf/assets/productDetails/075900002.png
+dist/wediConf/assets/productDetails/075900003.pdf
+dist/wediConf/assets/productDetails/075900003.png
+dist/wediConf/assets/productDetails/075900004.pdf
+dist/wediConf/assets/productDetails/075900004.png
+dist/wediConf/assets/productDetails/075900005.pdf
+dist/wediConf/assets/productDetails/075900005.png
+dist/wediConf/assets/productDetails/075900006.pdf
+dist/wediConf/assets/productDetails/075900006.png
+dist/wediConf/assets/productDetails/075900007.pdf
+dist/wediConf/assets/productDetails/075900007.png
+dist/wediConf/assets/productDetails/075900008.png

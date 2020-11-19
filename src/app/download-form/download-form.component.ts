@@ -44,8 +44,9 @@ export class DownloadFormComponent implements OnInit {
   {
     this.apiService
       .post("user/register", {
-            user: this.user
-      })
+            user: this.user,
+            session: this.storage.session
+          })
       .subscribe((res: HttpResponse<any>) => {
         alert(res.body.message);
         this.dialogRef.close();

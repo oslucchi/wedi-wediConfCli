@@ -3,7 +3,7 @@
 <table>
     <tr>
         <td>
-            <div style='flex: 0 0 700px; ; text-align: center;'>
+            <div style='flex: 0 0 650px; ; text-align: center;'>
                 <b>ELEMENTI AGGIUNTIVI DELL'ORDINE</b>
             </div>
         </td>
@@ -103,7 +103,7 @@
                                 <ng-container matColumnDef="gridSize">
                                     <mat-header-cell *matHeaderCellDef class='mat-column-gridSize'>Dimensioni</mat-header-cell>
                                     <mat-cell *matCellDef="let grid">
-                                        {{ grid.width }} x  {{ grid.length }} x {{ grid.thickness }} mm
+                                        {{ grid.length }} x {{ grid.width }} x  {{ grid.thickness }} mm
                                     </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="gridPrice">
@@ -175,7 +175,7 @@
                                 <ng-container matColumnDef="gridSize">
                                     <mat-header-cell *matHeaderCellDef class='mat-column-gridSize'>Dimensioni</mat-header-cell>
                                     <mat-cell *matCellDef="let grid">
-                                        {{ grid.width }} x  {{ grid.length }} x {{ grid.thickness }} mm
+                                        {{ grid.length }} x {{ grid.width }} x {{ grid.thickness }} mm
                                     </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="gridPrice">
@@ -350,7 +350,7 @@
                     <td colspan="2" style="text-align: center;">
                         <b>Piatto doccia articolo {{ storage.tray.articleNumber }}</b>
                         <br><br>
-                        Misure originali richieste {{ storage.searchCriteria.wMin }} x {{ storage.searchCriteria.lMin }}mm
+                        Misure originali richieste {{ storage.searchCriteria.lMin }} x {{ storage.searchCriteria.wMin }}mm
                         <div *ngIf="storage.tray.drainType == 'I'">
                             <br>
                             <span style='color: blue;'>
