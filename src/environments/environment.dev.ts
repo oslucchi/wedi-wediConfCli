@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  host: "http://it-configurator.wedi.eu/wediConfTest/restcall",
+  host: "http://it-configurator.wedi.eu",
   baseURL: "/wediConf",
   baseHref: "/"
 };
