@@ -40,7 +40,9 @@ export class LandingComponent implements OnInit {
     [TrayType.Drain]: 'Lineare',
     [ScreedHeight.LessThan10]: 'Meno di 10cm',
     [ScreedHeight.GreaterThanEqual10]: '10 cm o più',
-    tileHeightHelp: `Inserisci l'altezza del rivestimento senza lo spessore della colla`
+    tileHeightHelp: `Inserisci l'altezza del rivestimento senza lo spessore della colla`,
+    muro: 'Muro',
+    pavimento: 'Pavimento'
   }
 
   public disableProfilesChoice: boolean;

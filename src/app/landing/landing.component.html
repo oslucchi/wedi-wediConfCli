@@ -7,6 +7,7 @@
           <div class="drain-choice-container">
             <div id="drain-choice-canalina" class="drain-choice" [ngClass]="{'selected': searchCriteria.trayType=='L'}"
               (click)="setTrayType('L')">
+              <img class="img-thumbnail" src="../../assets/img/fundo_primo.jpg" alt="">
             </div>
             <div id="drain-choice-puntuale" class="drain-choice" [ngClass]="{'selected': searchCriteria.trayType=='P'}"
               (click)="setTrayType('P')"></div>
@@ -60,51 +61,48 @@
             </div>
           </div>
         </div>
-        <div>
-          <button id="search" class="btn btn-primary" (click)="doSearch()">
+        <div class="d-flex justify-content-center align-items-center flex-column">
+          <div class="btn-group btn-group-toggle d-flex justify-content-center align-items-center mb-5" ngbRadioGroup
+            name="profilesNorth" [(ngModel)]="searchCriteria.profiles.north" [disabled]="disableProfilesChoice">
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="wall">{{messages.muro}}
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="floor">{{messages.pavimento}}
+            </label>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="btn-group btn-group-toggle d-flex justify-content-center side-buttons" ngbRadioGroup
+              name="profilesWest" [(ngModel)]="searchCriteria.profiles.west" [disabled]="disableProfilesChoice">
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="wall">{{messages.muro}}
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="floor">{{messages.pavimento}}
+              </label>
+            </div>
+            <div>
+              <app-trays [showDrain]="showDrain" [trayWidth]="searchCriteria.wMin" [trayLength]="searchCriteria.lMin">
+              </app-trays>
+            </div>
+            <div class="btn-group btn-group-toggle d-flex justify-content-center side-buttons" ngbRadioGroup
+              name="profilesEst" [(ngModel)]="searchCriteria.profiles.est" [disabled]="disableProfilesChoice">
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="wall">{{messages.muro}}
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" value="floor">{{messages.pavimento}}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column mt-5 mb-5 justify-content-center">
+          <button id="search" class="btn btn-primary btn-block" (click)="doSearch()">
             {{ searchCaption }}
           </button>
-          <button *ngIf="searchPerformed" class="btn btn-primary" id="nuovo" (click)="doNew()">
+          <button *ngIf="searchPerformed" class="btn btn-outline-secondary btn-block" id="nuovo" (click)="doNew()">
             Nuova ricerca
           </button>
-        </div>
-        <div>
-          <table>
-            <tr>
-              <td></td>
-              <td style="text-align: center">
-                <mat-radio-group name="profilesNorth" labelPosition="after" [(ngModel)]="searchCriteria.profiles.north"
-                  [disabled]="disableProfilesChoice">
-                  <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                  <br>
-                  <mat-radio-button value="floor">Pavimento</mat-radio-button>
-                </mat-radio-group>
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>
-                <mat-radio-group name="profilesWest" labelPosition="after" [(ngModel)]="searchCriteria.profiles.west"
-                  [disabled]="disableProfilesChoice">
-                  <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                  <br>
-                  <mat-radio-button value="floor">Pavimento</mat-radio-button>
-                </mat-radio-group>
-              </td>
-              <td>
-                <app-trays [showDrain]="showDrain" [trayWidth]="searchCriteria.wMin" [trayLength]="searchCriteria.lMin">
-                </app-trays>
-              </td>
-              <td>
-                <mat-radio-group name="profilesEst" labelPosition="after" [(ngModel)]="searchCriteria.profiles.est"
-                  [disabled]="disableProfilesChoice">
-                  <mat-radio-button value="wall">Muro</mat-radio-button>
-                  <br>
-                  <mat-radio-button value="floor" checked>Pavimento</mat-radio-button>
-                </mat-radio-group>
-              </td>
-            </tr>
-          </table>
         </div>
       </div>
       <div class="col-sm-8">
