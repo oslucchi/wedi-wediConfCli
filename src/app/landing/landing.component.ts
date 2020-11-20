@@ -12,12 +12,22 @@ import { Tray } from '../dataModel/Tray';
 import { SearchCriteria } from '../dataModel/SearchCriteria';
 import { LocalStorageService } from '../localstorage.service';
 
+enum TrayType {
+  Point = 'P',
+  Drain = 'L',
+}
+
+
+enum ScreedHeight {
+  LessThan10 = 'lessThan10',
+  GreaterThanEqual10 = 'greaterEqual10'
+}
+
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
-  styleUrls: ["./landing.component.css"],
+  styleUrls: ["./landing.component.scss"],
 })
-
 export class LandingComponent implements OnInit {
   @ViewChild("trayWidthField", { static: false }) trayWidthField: ElementRef;
   @ViewChild("trayLengthField", { static: false }) trayLengthField: ElementRef;
@@ -25,22 +35,30 @@ export class LandingComponent implements OnInit {
 
   public showDrain = false;
 
+  public messages = {
+    [TrayType.Point]: 'Puntuale',
+    [TrayType.Drain]: 'Lineare',
+    [ScreedHeight.LessThan10]: 'Meno di 10cm',
+    [ScreedHeight.GreaterThanEqual10]: '10 cm o più',
+    tileHeightHelp: `Inserisci l'altezza del rivestimento senza lo spessore della colla`
+  }
+
   public disableProfilesChoice: boolean;
   private displayedColumns: any[] = [
-            { def: "articleNumber", hide: false },
-            { def: "description", hide: false },
-            { def: "trayType", hide: true },
-            { def: "drainType", hide: true },
-            { def: "size", hide: false },
-            { def: "width", hide: true },
-            { def: "length", hide: true },
-            { def: "thickness", hide: true },
-            { def: "price", hide: false },
-          ];
+    { def: "articleNumber", hide: false },
+    { def: "description", hide: false },
+    { def: "trayType", hide: true },
+    { def: "drainType", hide: true },
+    { def: "size", hide: false },
+    { def: "width", hide: true },
+    { def: "length", hide: true },
+    { def: "thickness", hide: true },
+    { def: "price", hide: false },
+  ];
 
   private sizeLabels = [
-    {type: "P", width: "Lato corto", length: "Lato lungo" },
-    {type: "L", width: "Lato canalina", length: "Altro lato" }
+    { type: TrayType.Point, width: "Lato corto", length: "Lato lungo" },
+    { type: TrayType.Drain, width: "Lato canalina", length: "Altro lato" }
   ];
   public sizeLabel: any;
 
@@ -48,64 +66,47 @@ export class LandingComponent implements OnInit {
   private trays: Tray[];
   public dataSource: MatTableDataSource<Tray>;
 
-  public trayTypeRadioButton: String;
-  public trayTypeOptions = [
-    { name: "drain", label: "Canalina" },
-    { name: "point", label: "Puntuale" },
-  ];
-  public screedHeightRadioButton: String;
-  public screedHeightOptions = [
-    { name: "lessThan10", label: "Meno di 10cm" },
-    { name: "greaterEqual10", label: "10 cm o più" },
-  ];
-  // private tileHeight = new FormControl();
-
   public searchCaption: String;
   public searchPerformed: boolean;
   public searchCriteria: SearchCriteria;
-
   public ipAddress: string;
   public userToken: string;
+  public widthError: string = null;
+  public lengthError: string = null;
 
   constructor(private service: ApiService,
-              private router: Router,
-              private storage: StorageService,
-              private localStorageService: LocalStorageService) 
-  {
-    if (this.storage.user.token == "")
-    {
+    private router: Router,
+    private storage: StorageService,
+    private localStorageService: LocalStorageService) {
+    if (this.storage.user.token == "") {
       this.storage.user.token = this.localStorageService.get("token");
       console.log("ngOnInit: token stored in memory is '" + this.storage.user.token + "'");
       this.service.getIpAddress()
-                  .subscribe(
-                    (res: any) => {
-                      console.log("ngOnInit: got IP address '" + res.ip + ". Calling user search");
-                      this.storage.session.ipAddress = res.ip;
-                      this.startUserSession()
-                    },
-                    (error: any) => {
-                      this.storage.session.ipAddress = "0.0.0.0";
-                      this.startUserSession()
-                  }); 
+        .subscribe(
+          (res: any) => {
+            console.log("ngOnInit: got IP address '" + res.ip + ". Calling user search");
+            this.storage.session.ipAddress = res.ip;
+            this.startUserSession()
+          },
+          (error: any) => {
+            this.storage.session.ipAddress = "0.0.0.0";
+            this.startUserSession()
+          });
     }
   }
 
   ngOnInit() {
-    if (this.storage.landingComponentData == null)
-    {
+    if (this.storage.landingComponentData == null) {
       this.setDefaultValues();
     }
-    else
-    {
+    else {
       this.searchCaption = "Ripeti";
       this.searchPerformed = true;
       this.searchCriteria = this.storage.landingComponentData.searchCriteria;
 
       // this.tileHeight.setValue(this.storage.landingComponentData.tileHeight.value);
-  
+
       this.disableProfilesChoice = this.storage.landingComponentData.disableProfilesChoice;
-      this.trayTypeRadioButton = this.storage.landingComponentData.trayTypeRadioButton;
-      this.screedHeightRadioButton = this.storage.landingComponentData.screedHeightRadioButton;
       this.showDrain = this.storage.landingComponentData.showDrain;
 
       this.sizeLabel = this.storage.landingComponentData.sizeLabel;
@@ -115,39 +116,34 @@ export class LandingComponent implements OnInit {
     }
   }
 
-  setDefaultValues()
-  {
+  setDefaultValues() {
     this.searchCaption = "Ricerca";
     this.searchPerformed = false;
     this.searchCriteria = new SearchCriteria();
 
     // this.tileHeight.setValue(0);
- 
+
     this.disableProfilesChoice = true;
     this.showDrain = false;
-    this.trayTypeRadioButton = "point";
-    this.screedHeightRadioButton = "greaterEqual10";
-    
-    this.sizeLabel = this.sizeLabels.find(item => item.type == "P");
+
+    this.sizeLabel = this.sizeLabels.find(item => item.type == TrayType.Point);
 
     this.dataSource = new MatTableDataSource<Tray>([]);
   }
 
-  startUserSession()
-  {
+  startUserSession() {
     // Check if user connected before
-    if ((this.storage.user.token == null) || (this.storage.user.token == undefined))
-    {
+    if ((this.storage.user.token == null) || (this.storage.user.token == undefined)) {
       this.storage.user.token = "";
     }
     console.log("startUserSession: token stored in memory '" + this.storage.user.token + "'");
 
     this.service
       .post("user/search",
-            {
-              user: this.storage.user,
-              session: this.storage.session
-            }
+        {
+          user: this.storage.user,
+          session: this.storage.session
+        }
       )
       .subscribe((res: HttpResponse<any>) => {
         console.log("startUserSession: got user '" + res.body.user.idUser + "' from DB");
@@ -156,10 +152,9 @@ export class LandingComponent implements OnInit {
         this.localStorageService.set("token", this.storage.user.token);
         console.log("startUserSession: token set is '" + this.localStorageService.get("token") + "'");
       });
-    }
+  }
 
-  ngAfterViewInit() 
-  {
+  ngAfterViewInit() {
   }
 
   getDisplayedColumns(): string[] {
@@ -170,59 +165,36 @@ export class LandingComponent implements OnInit {
     this.showDrain = showDrain;
   }
 
-  onChange(mrChange: MatRadioChange) {
-    let mrButton: MatRadioButton = mrChange.source;
-    switch (mrButton.name) {
-      case "trayType":
-        if (mrChange.value == "point") 
-        {
-          this.showDrain = false;
-          this.searchCriteria.trayType = "P";
-          this.disableProfilesChoice = true;
-          this.sizeLabel = this.sizeLabels.find(item => item.type == "P");
-        } 
-        else 
-        {
-          this.showDrain = true;
-          this.searchCriteria.trayType = "L";
-          this.disableProfilesChoice = false;
-          this.sizeLabel = this.sizeLabels.find(item => item.type == "L");
-        }
-        break;
 
-      case "screedHeigth":
-        if (mrChange.value == "lessThan10")
-        {      
-          this.searchCriteria.screedThickness = 99;
-        }
-        else
-        {
-          this.searchCriteria.screedThickness = 200;
-        }
-        break;
-    }
-    console.log(this.searchCriteria.trayType + " " + this.searchCriteria.screedThickness);
+  setTrayType(value: TrayType) {
+    this.showDrain = value !== TrayType.Point;
+    this.searchCriteria.trayType = value;
+    this.disableProfilesChoice = value === TrayType.Point;
+    this.sizeLabel = this.sizeLabels.find(item => item.type == TrayType.Point);
+    console.info(`Setting tray type: tray type: ${this.searchCriteria.trayType} - screed height: ${this.searchCriteria.screedThickness}`);
   }
 
-  onWidthChange() 
-  {
-    var wMinLowBound: number = 600;
-    var wMinUpBound: number;
+  onWidthChange(notificationType: 'alert' | 'validation') {
+    const wMinLowBound: number = 600;
+    let wMinUpBound: number;
 
-    if (this.searchCriteria.trayType == "P")
-    {
-       wMinUpBound = 2700;
-    }
-    else
-    {
+    if (this.searchCriteria.trayType == TrayType.Point) {
+      wMinUpBound = 2700;
+    } else {
       wMinUpBound = 1800;
     }
     if (this.searchCriteria.wMin < wMinLowBound || this.searchCriteria.wMin > wMinUpBound) {
-      alert(
-        this.sizeLabel.width + " deve essere tra " + wMinLowBound + " e " + wMinUpBound + " cm\n" +
-          "Per misure fuori limite chiamare ufficio tecnico wedi Italia"
-      );
-      this.searchCriteria.wMin  = 900;
+      if (notificationType === 'alert') {
+        alert(
+          `${this.sizeLabel.width} deve essere tra ${wMinLowBound} e ${wMinUpBound} mm.\n` +
+          "Per misure fuori limite chiamare ufficio tecnico wedi Italia (+39 039 245 9420)"
+        );
+      } else {
+        this.widthError = `${this.sizeLabel.width} deve essere tra ${wMinLowBound} e ${wMinUpBound} mm.\n` +
+          "Per misure fuori limite chiamare ufficio tecnico wedi Italia (+39 039 245 9420)";
+      }
+
+      this.searchCriteria.wMin = 900;
       setTimeout(() => {
         this.trayWidthField.nativeElement.select();
         this.trayWidthField.nativeElement.focus();
@@ -231,25 +203,25 @@ export class LandingComponent implements OnInit {
     }
   }
 
-  onLengthChange() 
-  {
+  onLengthChange(notificationType: 'alert' | 'validation') {
     var lMinLowBound: number = 600;
     var lMinUpBound: number;
-    if (this.searchCriteria.trayType == "P")
-    {
+    if (this.searchCriteria.trayType == TrayType.Point) {
       lMinUpBound = 2700;
-    }
-    else
-    {
+    } else {
       lMinUpBound = 1800;
     }
 
     if (this.searchCriteria.lMin < lMinLowBound || this.searchCriteria.lMin > lMinUpBound) {
-      alert(
-        this.sizeLabel.length + " deve essere tra " + lMinLowBound + " e " + lMinUpBound + " cm\n" +
-          "Per misure fuori limite chiamare ufficio tecnico wedi Italia"
-      );
-      this.searchCriteria.lMin  = 1400;
+      if (notificationType === 'alert') {
+        alert(
+          `${this.sizeLabel.length} deve essere tra ${lMinLowBound} e ${lMinUpBound} mm.\n Per misure fuori limite chiamare ufficio tecnico wedi Italia (+39 039 245 9420)`
+        );
+      } else {
+        this.lengthError = `${this.sizeLabel.length} deve essere tra ${lMinLowBound} e ${lMinUpBound} mm.\n Per misure fuori limite chiamare ufficio tecnico wedi Italia (+39 039 245 9420)`;
+      }
+
+      this.searchCriteria.lMin = 1400;
       setTimeout(() => {
         this.trayLengthField.nativeElement.select();
         this.trayLengthField.nativeElement.focus();
@@ -261,8 +233,7 @@ export class LandingComponent implements OnInit {
   onTileThickChange() {
     var tileHeight: number;
     tileHeight = Number(this.searchCriteria.profiles.tileHeight);
-    if (tileHeight < 5.5 || tileHeight > 10)
-    {
+    if (tileHeight < 5.5 || tileHeight > 10) {
       alert("Lo spessore del rivestimento deve essere tra 5.5 e 10mm. Non considerare la colla");
       this.searchCriteria.profiles.tileHeight = 10;
       setTimeout(() => {
@@ -286,14 +257,13 @@ export class LandingComponent implements OnInit {
 
     this.searchCaption = "Ripeti";
 
-    if ((this.searchCriteria.trayType == "P") && 
-        (Number(this.searchCriteria.lMin) < Number(this.searchCriteria.wMin)))
-    {
+    if ((this.searchCriteria.trayType == TrayType.Point) &&
+      (Number(this.searchCriteria.lMin) < Number(this.searchCriteria.wMin))) {
       temp = this.searchCriteria.lMin;
       this.searchCriteria.lMin = this.searchCriteria.wMin;
       this.searchCriteria.wMin = temp;
-      this.onLengthChange();
-      this.onWidthChange();
+      this.onLengthChange('alert');
+      this.onWidthChange('alert');
     }
 
     this.service
@@ -315,8 +285,7 @@ export class LandingComponent implements OnInit {
       });
   }
 
-  doNew() 
-  {
+  doNew() {
     this.storage.landingComponentData = null;
     this.setDefaultValues();
   }

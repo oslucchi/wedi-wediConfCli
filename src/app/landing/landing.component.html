@@ -1,138 +1,115 @@
 <div>
-
-  <button type="button" class="btn btn-primary">
-    VEDI I PIATTI DISPONIBILI
-  </button>
-
-  <table width="100%">
-    <tr>
-      <td width="30%" valign="top">
-        <table>
-          <tr>
-            <td>
-              <table>
-                <tr>
-                  <td>Tipo scarico:</td>
-                  <td>
-                    <mat-radio-group [(ngModel)]="trayTypeRadioButton" labelPosition="after" (change)="onChange($event)"
-                      name="trayType">
-                      <mat-radio-button *ngFor="let op of trayTypeOptions" [value]="op.name">
-                        {{ op.label }}
-                      </mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan=2>
-                    &nbsp;
-                  </td>
-                </tr>
-                <tr>
-                  <td>Altezza utile massetto:</td>
-                  <td>
-                    <mat-radio-group [(ngModel)]="screedHeightRadioButton" labelPosition="after"
-                      (change)="onChange($event)" name="screedHeigth">
-                      <mat-radio-button *ngFor="let op of screedHeightOptions" [value]="op.name">
-                        {{ op.label }}
-                      </mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan=2>
-                    &nbsp;
-                  </td>
-                </tr>
-                <tr>
-                  <td>Dimensioni:</td>
-                  <td>
-                    <mat-form-field>
-                      <mat-label>{{ sizeLabel.width }} <b>(mm)</b> </mat-label>
-                      <!--
-                        [formControl]="matWidth"
-                        -->
-                      <input #trayWidthField matInput (change)="onWidthChange()" [(ngModel)]="searchCriteria.wMin" />
-                    </mat-form-field>
-                    <br>
-                    <mat-form-field>
-                      <mat-label>{{ sizeLabel.length }} <b>(mm)</b> </mat-label>
-                      <!--
-                        [formControl]="matLength"
-                        -->
-                      <input #trayLengthField matInput (change)="onLengthChange()" [(ngModel)]="searchCriteria.lMin" />
-                    </mat-form-field>
-                  </td>
-                </tr>
-                <tr *ngIf="!disableProfilesChoice">
-                  <td>Rivestimento:</td>
-                  <td>
-                    <mat-form-field>
-                      <mat-label>Spessore (tra 5.5 e 10 <b>mm</b>) </mat-label>
-                      <!--
-                        [formControl]="tileHeight"
-                        -->
-                      <input #tileHeightField matInput placeholder="Solo ceramica no colla"
-                        (change)="onTileThickChange()" [(ngModel)]="searchCriteria.profiles.tileHeight" />
-                    </mat-form-field>
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr>
-                  <td></td>
-                  <td style="text-align: center">
-                    <mat-radio-group name="profilesNorth" labelPosition="after"
-                      [(ngModel)]="searchCriteria.profiles.north" [disabled]="disableProfilesChoice">
-                      <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                      <br>
-                      <mat-radio-button value="floor">Pavimento</mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>
-                    <mat-radio-group name="profilesWest" labelPosition="after"
-                      [(ngModel)]="searchCriteria.profiles.west" [disabled]="disableProfilesChoice">
-                      <mat-radio-button value="wall" checked>Muro</mat-radio-button>
-                      <br>
-                      <mat-radio-button value="floor">Pavimento</mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                  <td>
-                    <app-trays [showDrain]="showDrain" [trayWidth]="searchCriteria.wMin"
-                      [trayLength]="searchCriteria.lMin"></app-trays>
-                  </td>
-                  <td>
-                    <mat-radio-group name="profilesEst" labelPosition="after" [(ngModel)]="searchCriteria.profiles.est"
-                      [disabled]="disableProfilesChoice">
-                      <mat-radio-button value="wall">Muro</mat-radio-button>
-                      <br>
-                      <mat-radio-button value="floor" checked>Pavimento</mat-radio-button>
-                    </mat-radio-group>
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              <div id="products">
-                <div ng-view class="view-frame"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 d-flex flex-column">
+        <div>
+          <p>Tipo di scarico</p>
+          <div class="drain-choice-container">
+            <div id="drain-choice-canalina" class="drain-choice" [ngClass]="{'selected': searchCriteria.trayType=='L'}"
+              (click)="setTrayType('L')">
+            </div>
+            <div id="drain-choice-puntuale" class="drain-choice" [ngClass]="{'selected': searchCriteria.trayType=='P'}"
+              (click)="setTrayType('P')"></div>
+          </div>
+        </div>
+        <hr>
+        <div>
+          <p>Altezza utile massetto</p>
+          <div class="btn-group btn-group-toggle d-flex justify-content-center" ngbRadioGroup name="screedHeight"
+            [(ngModel)]="searchCriteria.screedThickness">
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="99">{{messages['lessThan10']}}
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" value="200">{{messages['greaterEqual10']}}
+            </label>
+          </div>
+          <hr>
+        </div>
+        <div *ngIf="!disableProfilesChoice">
+          <p>Altezza rivestimento</p>
+          <div class="form-group">
+            <input type="number" [(ngModel)]="searchCriteria.profiles.tileHeight" type="number" class="form-control"
+              id="tile-height" aria-describedby="tile-height">
+            <small id="tile-height-help" class="form-text text-muted">{{messages.tileHeightHelp}}</small>
+          </div>
+          <hr>
+        </div>
+        <div>
+          <p>Dimensioni:</p>
+          <div>
+            <div class="form-group">
+              <label for="width"><b>{{ sizeLabel.width }}</b>(mm)</label>
+              <input type="number" (change)="onWidthChange()" [(ngModel)]="searchCriteria.wMin" type="number"
+                class="form-control" #trayWidthField aria-describedby="widthError"
+                [ngClass]="{'is-invalid': widthError}">
+              <div *ngIf="widthError" id="widthError" class="invalid-feedback">
+                {{widthError}}
               </div>
-            </td>
-          </tr>
-        </table>
-      </td>
-      <td width="65%" valign="top">
+              <small id="width-help" class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+              <label for="length"><b>{{ sizeLabel.length }}</b>(mm)</label>
+              <input type="number" (change)="onLengthChange()" [(ngModel)]="searchCriteria.lMin" type="number"
+                class="form-control" #trayLengthField aria-describedby="lengthError"
+                [ngClass]="{'is-invalid': lengthError}">
+              <div *ngIf="lengthError" id="lengthError" class="invalid-feedback">
+                {{lengthError}}
+              </div>
+              <small id="length-help" class="form-text text-muted"></small>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button id="search" class="btn btn-primary" (click)="doSearch()">
+            {{ searchCaption }}
+          </button>
+          <button *ngIf="searchPerformed" class="btn btn-primary" id="nuovo" (click)="doNew()">
+            Nuova ricerca
+          </button>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td></td>
+              <td style="text-align: center">
+                <mat-radio-group name="profilesNorth" labelPosition="after" [(ngModel)]="searchCriteria.profiles.north"
+                  [disabled]="disableProfilesChoice">
+                  <mat-radio-button value="wall" checked>Muro</mat-radio-button>
+                  <br>
+                  <mat-radio-button value="floor">Pavimento</mat-radio-button>
+                </mat-radio-group>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <mat-radio-group name="profilesWest" labelPosition="after" [(ngModel)]="searchCriteria.profiles.west"
+                  [disabled]="disableProfilesChoice">
+                  <mat-radio-button value="wall" checked>Muro</mat-radio-button>
+                  <br>
+                  <mat-radio-button value="floor">Pavimento</mat-radio-button>
+                </mat-radio-group>
+              </td>
+              <td>
+                <app-trays [showDrain]="showDrain" [trayWidth]="searchCriteria.wMin" [trayLength]="searchCriteria.lMin">
+                </app-trays>
+              </td>
+              <td>
+                <mat-radio-group name="profilesEst" labelPosition="after" [(ngModel)]="searchCriteria.profiles.est"
+                  [disabled]="disableProfilesChoice">
+                  <mat-radio-button value="wall">Muro</mat-radio-button>
+                  <br>
+                  <mat-radio-button value="floor" checked>Pavimento</mat-radio-button>
+                </mat-radio-group>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-8">
         <table width="100%">
           <tr>
-            <td>
-              <button id="search" (click)="doSearch()">
-                {{ searchCaption }}
-              </button>
-              <button *ngIf="searchPerformed" id="nuovo" (click)="doNew()">
-                Nuova ricerca
-              </button>
-            </td>
             <td>
               <div *ngIf="dataSource.data.length > 0" style="color: blue;">
                 Cliccare sul risultato prescelto per vederne i dettagli
@@ -194,7 +171,7 @@
             </td>
           </tr>
         </table>
-      </td>
-    </tr>
-  </table>
+      </div>
+    </div>
+  </div>
 </div>

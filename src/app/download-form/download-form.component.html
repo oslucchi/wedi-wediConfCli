@@ -8,7 +8,7 @@
       <td>
         <mat-form-field [style.width.px]=327>
           <input matInput [(ngModel)]="user.email">
-        </mat-form-field>      
+        </mat-form-field>
       </td>
     </tr>
     <tr>
@@ -28,12 +28,12 @@
     </tr>
     <tr>
       <td>
-          <mat-label>Nome</mat-label>
+        <mat-label>Nome</mat-label>
       </td>
       <td>
         <mat-form-field [style.width.px]=327>
           <input matInput [(ngModel)]="user.firstName">
-        </mat-form-field>      
+        </mat-form-field>
       </td>
     </tr>
     <tr>
@@ -43,7 +43,7 @@
       <td>
         <mat-form-field [style.width.px]=327>
           <input matInput [(ngModel)]="user.lastName">
-        </mat-form-field>      
+        </mat-form-field>
       </td>
     </tr>
     <tr>
@@ -53,14 +53,14 @@
       <td>
         <mat-form-field [style.width.px]=327>
           <input matInput [(ngModel)]="user.organization">
-        </mat-form-field>      
+        </mat-form-field>
       </td>
     </tr>
   </table>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="onCancelClick()">Cancella</button>
-  <button mat-raised-button color="primary" (click)="onSendClick()">Spedisci</button>
+  <button class="btn btn-primary" (click)="onCancelClick()">Cancella</button>
+  <button class="btn btn-primary" (click)="onSendClick()">Spedisci</button>
 </div>
 <span>
   <br>
