@@ -72,6 +72,7 @@ export class LandingComponent implements OnInit {
               private storage: StorageService,
               private localStorageService: LocalStorageService) 
   {
+    this.ipAddress = "";
     if (this.storage.user.token == "")
     {
       this.storage.user.token = this.localStorageService.get("token");

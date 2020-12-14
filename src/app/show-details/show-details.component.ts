@@ -189,18 +189,24 @@ export class ShowDetailsComponent implements OnInit {
             this.gridsMandatory = true;
           }
         }
-        for (i = 0; i < this.otherParts.length; i++) {
-          if (this.otherParts[i].selected) {
+        for (i = this.otherParts.length - 1; i >= 0 ; i--) {
+          console.log("iteration " + i + 
+                      "Considering art " + this.otherParts[i].articleNumber + 
+                      " - " + this.otherParts[i].description);
+          if (this.otherParts[i].selected) 
+          {
+            console.log("Part selected, adding it to the proposal dataset");
             var item = new Order();
             item.articleNumber = this.otherParts[i].articleNumber;
             item.description = this.otherParts[i].description;
             item.size = "";
             item.price = this.otherParts[i].price;
             this.order.push(item);
+            console.log("Added");
             this.otherParts.splice(i, 1);
           }
         }
-        for (i = 0; i < this.drains.length; i++) {
+        for (i = this.drains.length - 1; i >= 0 ; i--) {
           if (this.drains[i].selected) 
           {
             var item = new Order();

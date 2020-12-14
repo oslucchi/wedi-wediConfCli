@@ -22,7 +22,7 @@ export class LocalStorageService {
             retVal = JSON.parse(this.localStorage.getItem(key));
             if (retVal == null)
             {
-            retVal = "";
+                retVal = "";
             }
         }
         return retVal;

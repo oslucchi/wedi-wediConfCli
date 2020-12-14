@@ -3,11 +3,11 @@
   <table>
     <tr>
       <td>
-        <mat-label>E-mail*</mat-label>
+        <mat-label>E-mail *</mat-label>
       </td>
       <td>
         <mat-form-field [style.width.px]=327>
-          <input matInput [(ngModel)]="user.email">
+          <input #emailField matInput [(ngModel)]="user.email" (focusout)="formDataCheck('email')">
         </mat-form-field>      
       </td>
     </tr>
@@ -28,21 +28,21 @@
     </tr>
     <tr>
       <td>
-          <mat-label>Nome</mat-label>
+          <mat-label>Nome *</mat-label>
       </td>
       <td>
         <mat-form-field [style.width.px]=327>
-          <input matInput [(ngModel)]="user.firstName">
+          <input matInput [(ngModel)]="user.firstName" (focusout)="formDataCheck('firstName')">
         </mat-form-field>      
       </td>
     </tr>
     <tr>
       <td>
-        <mat-label>Cognome</mat-label>
+        <mat-label>Cognome *</mat-label>
       </td>
       <td>
         <mat-form-field [style.width.px]=327>
-          <input matInput [(ngModel)]="user.lastName">
+          <input matInput [(ngModel)]="user.lastName" (focusout)="formDataCheck('lastName')">
         </mat-form-field>      
       </td>
     </tr>
@@ -52,7 +52,7 @@
       </td>
       <td>
         <mat-form-field [style.width.px]=327>
-          <input matInput [(ngModel)]="user.organization">
+          <input matInput [(ngModel)]="user.organization" (focusout)="formDataCheck('organization')">
         </mat-form-field>      
       </td>
     </tr>
@@ -60,7 +60,7 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="onCancelClick()">Cancella</button>
-  <button mat-raised-button color="primary" (click)="onSendClick()">Spedisci</button>
+  <button mat-raised-button color="primary" (click)="onSendClick()" [disabled]="formIncomplete">Spedisci</button>
 </div>
 <span>
   <br>
