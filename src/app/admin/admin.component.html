@@ -1,0 +1,93 @@
+<table style="width: 100%;">
+    <tr>
+        <th style="vertical-align: top; width: 45%; text-align: center;">Utente</th>
+        <th style="vertical-align: top; width: 22%; text-align: center;">Data</th>
+        <th style="vertical-align: top; width: 33%; text-align: center;">Ricerca</th>
+    </tr>
+    <tr >
+        <td style="vertical-align: top; width: 45%; border-right: 1px solid red; ">
+            <mat-table [dataSource]="usersDS">
+                <ng-container matColumnDef="lastName">
+                    <mat-header-cell *matHeaderCellDef>Cognome</mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ user.lastName }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="firstName">
+                    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ user.firstName }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="organization">
+                    <mat-header-cell *matHeaderCellDef>P/L</mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ user.organization }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef>Mail</mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
+                </ng-container>        
+                <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef>St.</mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ (user.active ? "A" : "I") }}</mat-cell>
+                </ng-container>        
+                <mat-header-row *matHeaderRowDef="getDisplayedColumns('users')"></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: getDisplayedColumns('users')"
+                    (click)="userSession(row)">
+                </mat-row>
+            </mat-table>
+        </td>
+        <td style="vertical-align: top; width: 22%; border-right: 1px solid red; ">
+            <div style="overflow-y: auto">
+                <mat-table [dataSource]="sessionDS">
+                    <ng-container matColumnDef="timestamp">
+                        <mat-header-cell *matHeaderCellDef>Data</mat-header-cell>
+                        <mat-cell *matCellDef="let session">{{ session.timestamp | date: 'dd/MM/yyyy hh:MM' }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="empty">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let session">&nbsp;</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="ipAddress">
+                        <mat-header-cell *matHeaderCellDef>IP</mat-header-cell>
+                        <mat-cell *matCellDef="let session">{{ session.ipAddress }}</mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="getDisplayedColumns('sessions')"></mat-header-row>
+                    <mat-row
+                        *matRowDef="let row; columns: getDisplayedColumns('sessions')"
+                        (click)="sessionQueries(row)"></mat-row>
+                </mat-table>
+            </div>
+        </td>
+        <td style="vertical-align: top; width: 33%;">
+            <mat-table [dataSource]="queriesDS">
+                <ng-container matColumnDef="trayType">
+                    <mat-header-cell *matHeaderCellDef>T</mat-header-cell>
+                    <mat-cell *matCellDef="let query">{{ query.trayType }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="screedThickness">
+                    <mat-header-cell *matHeaderCellDef>I/E</mat-header-cell>
+                    <mat-cell *matCellDef="let query">{{ (query.screedThickness == 200 ? "EXT" : "INT") }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="size">
+                    <mat-header-cell *matHeaderCellDef>Dimensioni</mat-header-cell>
+                    <mat-cell *matCellDef="let query">{{ query.wMin }} x {{ query.lMin }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="tileHeight">
+                    <mat-header-cell *matHeaderCellDef>Riv.</mat-header-cell>
+                    <mat-cell *matCellDef="let query">
+                        <div *ngIf="query.profiles.tileHeight!=0">
+                            {{ query.profiles.tileHeight }} mm
+                        </div>
+                        <div *ngIf="query.profiles.tileHeight==0">
+                            &nbsp;
+                        </div>
+                    </mat-cell>
+                </ng-container>        
+                <ng-container matColumnDef="profiles">
+                    <mat-header-cell *matHeaderCellDef>Profili</mat-header-cell>
+                    <mat-cell *matCellDef="let query">Destra {{ query.profiles.est }} - Sinistra {{ query.profiles.west }} - Testa {{ query.profiles.north }}</mat-cell>
+                </ng-container>        
+                <mat-header-row *matHeaderRowDef="getDisplayedColumns('queries')"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: getDisplayedColumns('queries')"></mat-row>
+            </mat-table>
+        </td>
+    </tr>
+</table>

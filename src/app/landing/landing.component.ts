@@ -77,11 +77,23 @@ export class LandingComponent implements OnInit {
     {
       this.storage.user.token = this.localStorageService.get("token");
       console.log("ngOnInit: token stored in memory is '" + this.storage.user.token + "'");
+      // this.service.getIpAddress()
+      //             .subscribe(
+      //               (res: any) => {
+      //                 console.log("ngOnInit: got IP address '" + res.ip + ". Calling user search");
+      //                 this.storage.session.ipAddress = res.ip;
+      //                 this.startUserSession()
+      //               },
+      //               (error: any) => {
+      //                 this.storage.session.ipAddress = "0.0.0.0";
+      //                 this.startUserSession()
+      //             }); 
+
       this.service.getIpAddress()
                   .subscribe(
                     (res: any) => {
-                      console.log("ngOnInit: got IP address '" + res.ip + ". Calling user search");
-                      this.storage.session.ipAddress = res.ip;
+                      console.log("ngOnInit: got IP address '" + res.geoplugin_request + ". Calling user search");
+                      this.storage.session.ipAddress = res.geoplugin_request;
                       this.startUserSession()
                     },
                     (error: any) => {
@@ -152,6 +164,7 @@ export class LandingComponent implements OnInit {
       )
       .subscribe((res: HttpResponse<any>) => {
         console.log("startUserSession: got user '" + res.body.user.idUser + "' from DB");
+        console.log("startUserSession: token '" + res.body.user.token + "' - role: " + res.body.user.role + " from DB");
         this.storage.user = res.body.user;
         this.storage.session = res.body.session;
         this.localStorageService.set("token", this.storage.user.token);
@@ -242,7 +255,7 @@ export class LandingComponent implements OnInit {
     }
     else
     {
-      lMinUpBound = 1800;
+      lMinUpBound = 2200;
     }
 
     if (this.searchCriteria.lMin < lMinLowBound || this.searchCriteria.lMin > lMinUpBound) {

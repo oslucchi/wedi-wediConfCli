@@ -23,7 +23,8 @@ import { AboutComponent } from './about/about.component';
 import { CookieService} from 'ngx-cookie-service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DownloadFormComponent } from './download-form/download-form.component';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatIconModule, MatMenuModule } from '@angular/material';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MatDialogModule } from '@angular/material';
     PunctComponent,
     ShowDetailsComponent,
     AboutComponent,
-    DownloadFormComponent
+    DownloadFormComponent,
+    AdminComponent
   ],
 
   imports: [
@@ -52,7 +54,9 @@ import { MatDialogModule } from '@angular/material';
     MatFormFieldModule,
     MatButtonModule,
     AppRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule,
+    MatIconModule
   ],
 
   providers: [CookieService],

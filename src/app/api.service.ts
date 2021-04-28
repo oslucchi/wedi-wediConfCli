@@ -38,17 +38,15 @@ export class ApiService {
 
   public getIpAddress()
   {
-    return this.httpClient.get( "https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=json",
-                                {
-                                  headers: new HttpHeaders()
-                                    .set('Access-Control-Allow-Origin', '*'),
-                                  observe: "body"
-                                }
-                          )
-                          .pipe(
-                            catchError(this.handleError)
-                          );
-  }
+     return this.httpClient.get( "http://www.geoplugin.net/json.gp",
+                          {
+                            observe: "body"
+                          }
+                    )
+                    .pipe(
+                      catchError(this.handleError)
+                    );
+}
 
   public get(endPoint: string)
   { 

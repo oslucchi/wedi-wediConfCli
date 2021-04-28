@@ -1,4 +1,28 @@
-<a href="" >
-    <img [src]="imgPath" alt="logo wedi">
-</a>
-<router-outlet></router-outlet>
+<table style='width:100%'>
+<tr>
+    <td>
+        <a href="" >
+            <img [src]="imgPath" alt="logo wedi">
+        </a>
+    </td>
+    <td>
+        <div *ngIf="storage.user.role==10">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="admin()">
+                    <mat-icon>settings</mat-icon>
+                    <span>Amministrazione</span>
+                </button>
+            </mat-menu>  
+        </div>
+    </td>
+</tr>
+<tr>
+    <td colspan=2>
+        <router-outlet></router-outlet>
+    </td>
+</tr>
+</table>
+

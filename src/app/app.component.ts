@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { StorageService } from './storage.service';
 import { DOCUMENT } from '@angular/common';
 import { environment } from "../environments/environment";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent {
   public title: String;
   public imgPath: String;
 
-  constructor(private storage: StorageService, 
+  constructor(public storage: StorageService,
+              private router: Router,
               @Inject(DOCUMENT) private document)
   {
     this.imgPath = storage.baseHref + 'assets/img/logoWedi.png';
@@ -26,5 +28,11 @@ export class AppComponent {
     if (bases.length > 0) {
       bases[0].setAttribute('href', this.storage.baseHref);
     }
+  }
+
+  admin()
+  {
+    console.log("called admin");
+    this.router.navigate(["admin"]);
   }
 }
