@@ -7,6 +7,7 @@ export class User {
     email: string;
     role: number; // 1 normal user ; 10 admin
     active: boolean;
+    connectedOn: Date;
 
     constructor ()
     {
@@ -18,5 +19,6 @@ export class User {
         this.email = "";
         this.active = false;
         this.role = 1;
+        this.connectedOn = new Date();
     }
 }

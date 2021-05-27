@@ -1,26 +1,192 @@
+<!--
+
+<table>
+    <tr>
+        <td colspan="3" style='text-align: center'>
+            <p style='text-align: center; font-weight:bold'>
+                FILTRI DI RICERCA
+                &nbsp;
+                <a href="javascript: void(0);" (click)="applyFilters()">Applica</a>
+                &nbsp;
+                <a href="javascript: void(0);" (click)="cancelFilters()">Cancella</a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <mat-form-field appearance="fill" [style.width.px]=400>
+                <mat-label>email: </mat-label>
+                <input matInput
+                        id="searchFilterCustomer"
+                        [(ngModel)]="additionalSearchFilter.email"
+                        maxlength="50"
+                        type="text" style='font-size: small;' 
+                        placeholder="email">
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=40>
+                <mat-label>Stato: </mat-label>
+                <input matInput
+                        id="searchFilterActive"
+                        [(ngModel)]="additionalSearchFilter.active"
+                        maxlength="1"
+                        type="text" style='font-size: small;'
+                        placeholder="Stato">
+            </mat-form-field>            
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=200>
+                <mat-label>Da data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterFromDate" 
+                    [(ngModel)]="additionalSearchFilter.fromDate"
+                    placeholder="Da data">
+                    <mat-datepicker-toggle matSuffix [for]="searchFilterFromDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterFromDate></mat-datepicker>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=200>
+                <mat-label>A data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterToDate" 
+                    [(ngModel)]="additionalSearchFilter.toDate"
+                    placeholder="A data"> 
+                <mat-datepicker-toggle matSuffix [for]="searchFilterToDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterToDate></mat-datepicker>
+            </mat-form-field>                
+        </td>
+        <td>
+            <mat-form-field appearance="fill" [style.width.px]=200>
+                <mat-label>Da data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterSessionFromDate" 
+                    [(ngModel)]="additionalSearchFilter.sessionFromDate"
+                    placeholder="Da data">
+                    <mat-datepicker-toggle matSuffix [for]="searchFilterFromDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterFromDate></mat-datepicker>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=200>
+                <mat-label>A data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterSessionToDate" 
+                    [(ngModel)]="additionalSearchFilter.sessionToDate"
+                    placeholder="A data"> 
+                <mat-datepicker-toggle matSuffix [for]="searchFilterToDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterToDate></mat-datepicker>
+            </mat-form-field>                
+        </td>
+        <td>
+            &nbsp;
+        </td>
+    </tr>
+</table>
+-->
+
 <table style="width: 100%;">
     <tr>
-        <th style="vertical-align: top; width: 45%; text-align: center;">Utente</th>
-        <th style="vertical-align: top; width: 22%; text-align: center;">Data</th>
-        <th style="vertical-align: top; width: 33%; text-align: center;">Ricerca</th>
+        <td colspan="3" style='text-align: center'>
+            <p style='text-align: center; font-weight:bold'>
+                FILTRI DI RICERCA
+                &nbsp;
+                <a href="javascript: void(0);" (click)="applyFilters()">Applica</a>
+                &nbsp;
+                <a href="javascript: void(0);" (click)="cancelFilters()">Cancella</a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <mat-form-field appearance="fill" [style.width.px]=400>
+                <mat-label>email: </mat-label>
+                <input matInput
+                        id="searchFilterCustomer"
+                        [(ngModel)]="additionalSearchFilter.email"
+                        maxlength="50"
+                        type="text" style='font-size: small;' 
+                        placeholder="email">
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=40>
+                <mat-label>Stato: </mat-label>
+                <input matInput
+                        id="searchFilterActive"
+                        [(ngModel)]="additionalSearchFilter.active"
+                        maxlength="1"
+                        type="text" style='font-size: small;'
+                        placeholder="Stato">
+            </mat-form-field>            
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=170>
+                <mat-label>Da data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterFromDate" 
+                    [(ngModel)]="additionalSearchFilter.fromDate"
+                    placeholder="Da data">
+                    <mat-datepicker-toggle matSuffix [for]="searchFilterFromDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterFromDate></mat-datepicker>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=170>
+                <mat-label>A data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterToDate" 
+                    [(ngModel)]="additionalSearchFilter.toDate"
+                    placeholder="A data"> 
+                <mat-datepicker-toggle matSuffix [for]="searchFilterToDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterToDate></mat-datepicker>
+            </mat-form-field>                
+        </td>
+        <td>
+            <mat-form-field appearance="fill" [style.width.px]=170>
+                <mat-label>Da data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterSessionFromDate" 
+                    [(ngModel)]="additionalSearchFilter.sessionFromDate"
+                    placeholder="Da data">
+                    <mat-datepicker-toggle matSuffix [for]="searchFilterSessionFromDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterSessionFromDate></mat-datepicker>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill" [style.width.px]=170>
+                <mat-label>A data: </mat-label>
+                <input matInput 
+                    [matDatepicker]="searchFilterSessionToDate" 
+                    [(ngModel)]="additionalSearchFilter.sessionToDate"
+                    placeholder="A data"> 
+                <mat-datepicker-toggle matSuffix [for]="searchFilterSessionToDate"></mat-datepicker-toggle>
+                <mat-datepicker #searchFilterSessionToDate></mat-datepicker>
+            </mat-form-field>                
+        </td>
+        <td>
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <th style="vertical-align: top; width: 50%; text-align: center;">Utente</th>
+        <th style="vertical-align: top; width: 20%; text-align: center;">Data</th>
+        <th style="vertical-align: top; width: 30%; text-align: center;">Ricerca</th>
     </tr>
     <tr >
-        <td style="vertical-align: top; width: 45%; border-right: 1px solid red; ">
-            <mat-table [dataSource]="usersDS">
+        <td style="vertical-align: top; width: 50%; border-right: 1px solid red; ">
+            <mat-table [dataSource]="usersDS" matSort >
+                <ng-container matColumnDef="connectedOn">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Data</mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ user.connectedOn | date: 'dd/MM/yy' }}</mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="lastName">
-                    <mat-header-cell *matHeaderCellDef>Cognome</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Cognome</mat-header-cell>
                     <mat-cell *matCellDef="let user">{{ user.lastName }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="firstName">
-                    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
                     <mat-cell *matCellDef="let user">{{ user.firstName }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="organization">
-                    <mat-header-cell *matHeaderCellDef>P/L</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>P/L</mat-header-cell>
                     <mat-cell *matCellDef="let user">{{ user.organization }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="email">
-                    <mat-header-cell *matHeaderCellDef>Mail</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Mail</mat-header-cell>
                     <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
                 </ng-container>        
                 <ng-container matColumnDef="active">
@@ -34,7 +200,7 @@
                 </mat-row>
             </mat-table>
         </td>
-        <td style="vertical-align: top; width: 22%; border-right: 1px solid red; ">
+        <td style="vertical-align: top; width: 20%; border-right: 1px solid red; ">
             <div style="overflow-y: auto">
                 <mat-table [dataSource]="sessionDS">
                     <ng-container matColumnDef="timestamp">
@@ -56,7 +222,7 @@
                 </mat-table>
             </div>
         </td>
-        <td style="vertical-align: top; width: 33%;">
+        <td style="vertical-align: top; width: 30%;">
             <mat-table [dataSource]="queriesDS">
                 <ng-container matColumnDef="trayType">
                     <mat-header-cell *matHeaderCellDef>T</mat-header-cell>

@@ -1,17 +1,40 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTab, MatTable, MatTableDataSource } from '@angular/material';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { SearchCriteria } from '../dataModel/SearchCriteria';
 import { User } from '../dataModel/User';
 import { Session } from '../dataModel/Session';
 import { StorageService } from '../storage.service';
+import { SearchFilters } from '../dataModel/admin-filter';
+import { MatSort } from '@angular/material/sort';
+
+export const MY_FORMATS = {
+  parse: {
+      dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'MM YYYY',
+      dateA11yLabel: 'DD/MM/YYYY',
+      monthYearA11yLabel: 'MM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
+  providers: [{
+    provide: MAT_DATE_LOCALE,
+    useValue: 'it'
+  },
+  {
+    provide: MAT_DATE_FORMATS,
+    useValue: MY_FORMATS
+  }]
 })
 export class AdminComponent implements OnInit {
   private queries: SearchCriteria[];
@@ -19,6 +42,7 @@ export class AdminComponent implements OnInit {
   public sessionDS: MatTableDataSource<Session>;
   public queriesDS: MatTableDataSource<SearchCriteria>;
   private displayedColumnsUsers: any[] = [
+    { def: "connectedOn", hide: false},
     { def: "lastName", hide: false },
     { def: "firstName", hide: false },
     { def: "organization", hide: false },
@@ -37,6 +61,10 @@ export class AdminComponent implements OnInit {
     { def: "tileHeight", hide: false },
     { def: "profiles", hide: false }
   ];
+  public additionalSearchFilter: SearchFilters = new SearchFilters();
+  public filterObj: SearchFilters;
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private storage: StorageService,
               private router: Router, 
@@ -64,9 +92,25 @@ export class AdminComponent implements OnInit {
       )
       .subscribe((res: HttpResponse<any>) => {
         this.usersDS = new MatTableDataSource<User>(res.body.users);
+        this.usersDS.sort = this.sort;
+        this.usersDS.filterPredicate = 
+          (data: User, filter: string) => { 
+              this.filterObj = JSON.parse(filter);
+              return (
+                (this.filterObj.email == null ||
+                    data.email.toLowerCase().indexOf(this.filterObj.email.toLowerCase()) !== -1 ) &&
+                (this.filterObj.active == null || 
+                    data.active && (this.filterObj.active.toUpperCase() == 'A') || !data.active && (this.filterObj.active.toUpperCase() !== 'a')) &&
+                ((this.filterObj.fromDate == null || 
+                    (new Date(data.connectedOn)).getTime() >= (new Date(this.filterObj.fromDate)).getTime()) &&
+                 (this.filterObj.toDate == null || 
+                    (new Date(data.connectedOn)).getTime() <= (new Date(this.filterObj.toDate)).getTime()))
+              )
+          };
+
         this.sessionDS = new MatTableDataSource<Session>([]);
-        this.queriesDS = new MatTableDataSource<SearchCriteria>([]);    
-      });
+        this.queriesDS = new MatTableDataSource<SearchCriteria>([]);   
+        });
   }
 
   userSession(user: User)
@@ -80,7 +124,18 @@ export class AdminComponent implements OnInit {
       )
       .subscribe((res: HttpResponse<any>) => {
         this.sessionDS = new MatTableDataSource<Session>(res.body.sessions);
-        this.queriesDS = new MatTableDataSource<SearchCriteria>([]);    
+        this.sessionDS.filterPredicate = 
+          (data: Session, filter: string) => { 
+              this.filterObj = JSON.parse(filter);
+              return (
+                ((this.filterObj.sessionFromDate == null || 
+                    (new Date(data.timestamp)).getTime() >= (new Date(this.filterObj.sessionFromDate)).getTime()) &&
+                 (this.filterObj.sessionToDate == null || 
+                    (new Date(data.timestamp)).getTime() <= (new Date(this.filterObj.sessionToDate)).getTime()))
+              )
+          };
+
+        this.queriesDS = new MatTableDataSource<SearchCriteria>([]);
       });
   }
 
@@ -148,4 +203,16 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  applyFilters()
+  {
+    this.usersDS.filter = JSON.stringify(this.additionalSearchFilter).trim();
+    this.sessionDS.filter = JSON.stringify(this.additionalSearchFilter).trim();
+  }
+
+  cancelFilters()
+  {
+    this.additionalSearchFilter = new SearchFilters();
+    this.usersDS.filter = JSON.stringify(this.additionalSearchFilter).trim();
+    this.sessionDS.filter = JSON.stringify(this.additionalSearchFilter).trim();
+  }
 }

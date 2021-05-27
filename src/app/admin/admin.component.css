@@ -1,8 +1,22 @@
+.mat-column-connectedOn {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 8% !important;
+    width: 8% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
 .mat-column-lastName {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 18% !important;
-    width: 18% !important;
+    flex: 0 0 16% !important;
+    width: 16% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
@@ -15,8 +29,8 @@
 .mat-column-firstName {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 18% !important;
-    width: 18% !important;
+    flex: 0 0 16% !important;
+    width: 16% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
@@ -29,8 +43,8 @@
 .mat-column-organization {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 18% !important;
-    width: 18% !important;
+    flex: 0 0 16% !important;
+    width: 16% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
@@ -43,8 +57,8 @@
 .mat-column-email {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 38% !important;
-    width: 38% !important;
+    flex: 0 0 36% !important;
+    width: 36% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
